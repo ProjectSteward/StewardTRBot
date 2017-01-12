@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Steward.QnaMaker;
 using System.Text.RegularExpressions;
+using Microsoft.Bot.Connector;
 
 namespace Steward
 {
@@ -23,52 +24,19 @@ namespace Steward
         public async Task None(IDialogContext context, LuisResult result)
         {
             string message = $"Sorry I did not understand: "
-                 + $"Hi!, I'm Steward, i try to help you to get answers for some of the issues and queries that you have for the help desk, \\n you can ask me questions line: \\n where to download abc? etc.\\n you can always enter 'Help' to get more info.";
+                 + $"Hi!, I'm Steward, i try to help you to get answers for some of the issues and queries that you have for the help desk, \n you can ask me questions line: \n where to download abc? etc.\n you can always enter **Help** to get more info.";
            // + string.Join(", ", result.Intents.Select(i => i.Intent));
             await context.PostAsync(message);
             context.Wait(MessageReceived);
         }
 
-        //[LuisIntent("Get weather")]
-        //public async Task GetWeather(IDialogContext context, LuisResult result)
-        //{
-        //    var cities = (IEnumerable<City>)Enum.GetValues(typeof(City));
-        //    EntityRecommendation location;
-
-        //    if (!result.TryFindEntity(Entity_location, out location))
-        //    {
-        //        PromptDialog.Choice(context,
-        //                            SelectCity,
-        //                            cities,
-        //                            "In which city do you want to know the weather forecast?");
-        //    }
-        //    else
-        //    {
-        //        Rootobject weatherObj = new Rootobject();
-        //        //var weatherREST = "http://api.openweathermap.org/data/2.5/forecast/city?q=" + result.Entities[0].Entity + "&APPID=75347511bed7141f8891a058749cd03d";
-        //        //using (var client = new HttpClient())
-        //        //{
-        //        //    client.BaseAddress = new Uri(weatherREST);
-        //        //    client.DefaultRequestHeaders.Accept.Clear();
-        //        //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-        //        //    // New code:
-        //        //    var response = await client.GetAsync(weatherREST);
-        //        //    response.EnsureSuccessStatusCode();
-
-                    
-        //        //}
-        //        weatherObj = await getmyweather(result.Entities[0].Entity);
-        //        await context.PostAsync($"The weather in " +  weatherObj.city.name + " is " + Math.Floor((weatherObj.list[0].main.temp) - 273.15) + "&#8451; and it's going to be " + weatherObj.list[0].weather[0].description);
-        //        context.Wait(MessageReceived);
-        //    }
-        //}
+       
         [LuisIntent("Greetings")]
         public async Task GetGreetings(IDialogContext context, LuisResult result)
         {
             if (result.Entities.Count == 0 )
             {
-                await context.PostAsync($"Hi thanks for checking in!");
+                await context.PostAsync($"Hi thanks for dropping by! \n **how can I help you?**");
             }
             else
             {
@@ -79,19 +47,19 @@ namespace Steward
                 switch (switch_on)
                 {
                     case "hello":
-                        await context.PostAsync($"Hi thanks for checking in :)!");
+                        await context.PostAsync($"Hi thanks for checking in :)\n **how can I help you?**!");
                         break;
                     case "good morning":
-                        await context.PostAsync($"Very good morning to you!");
+                        await context.PostAsync($"Very good morning to you!\n **how can I help you?**");
                         break;
                     case "good evening":
-                        await context.PostAsync($"Good Evening to you out there :)!");
+                        await context.PostAsync($"Good Evening to you out there :)\n **how can I help you?**!");
                         break;
                     case "good night":
                         await context.PostAsync($"you have a good night!");
                         break;
                     default:
-                        await context.PostAsync("hi there!");
+                        await context.PostAsync("hi there!\n **how can I help you?**");
                         break;
                 }
             }
@@ -99,6 +67,53 @@ namespace Steward
 
             context.Wait(MessageReceived);
         }
+
+        [LuisIntent("Appreciation")]
+        public async Task AppreciationResonse(IDialogContext context, LuisResult result)
+        {
+                await context.PostAsync($"Thanks for dropping by. \n\n Remember you can always ask me new queries at any time.");
+         
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("Feedback")]
+        public async Task GetFeedback(IDialogContext context, LuisResult result)
+        {
+            await GetFeedbackgeneric(context);
+        }
+
+        public async Task GetFeedbackgeneric(IDialogContext context)
+        {
+            PromptDialog.Choice(
+                      context,
+                      AfterRateAsync,
+                      new int[5] { 1, 2, 3, 4, 5 },
+                       "Thanks for dropping by! \n If you would like to **rate** us, please type **Feedback** \n\n Remember you can always ask me new queries at any time.",
+                      promptStyle: PromptStyle.Auto);
+        }
+
+        public async Task AfterRateAsync(IDialogContext context, IAwaitable<int> argument)
+        {
+            //var hours = string.Empty;
+            switch (await argument)
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    //hours = "5pm to 11pm";
+                    break;
+                default:
+                    // hours = "11am to 10pm";
+                    break;
+            }
+
+            var text = $"Thanks for your feedback, have a nice day! \n\n Remember you can always ask me new queries at any time.";
+            await context.PostAsync(text);
+            context.Wait(MessageReceived);
+        }
+
 
         //Will run when no intent is triggered
         [LuisIntent("Help")]
@@ -139,17 +154,15 @@ namespace Steward
                     }
                     else
                     {
-                        await context.PostAsync("\n\n*Powered by the new QnA Maker Cognitive Service*");
-                        props.Add("FoundInKB", "true");
-                    }
+                   // await context.PostAsync("\n\n*Please enter/type \"Accept\" if you have no further question, else please carry on with your questions :)");    
+                    PromptDialog.Choice(
+                     context,
+                     AfterMathAsync,
+                     new String[2] { "Comeback later", "New query" },
+                      "Here's what we you can do next:",
+                     promptStyle: PromptStyle.Auto);
+                }
 
-                    //tc.TrackEvent(intent, props);
-                //}
-                //else
-                //{
-                //    //IMessageActivity responseMessage = await GenerateAuthenticationResponse(result.Query);
-                //    await context.PostAsync(responseMessage);
-                //}
             }
             catch (Exception e)
             {
@@ -158,10 +171,41 @@ namespace Steward
             }
             finally
             {
-                context.Wait(MessageReceived);
+               // context.Wait(MessageReceived);
             }
         }
 
+        public async Task AfterMathAsync(IDialogContext context, IAwaitable<string> argument)
+        {
+            try
+            {
+                var txtNext = "";
+                switch (await argument)
+                {
+                    case "Comeback later":
+                       // await GetFeedbackgeneric(context);
+                        txtNext = "Thanks for dropping by! \n If you would like to **rate** us, please type **Feedback** \n\n Remember you can always ask me new queries at any time.";
+                        break;
+                    case "New query":
+                        txtNext = "Please carry on...";
+                        break;
+                    default:
+                        // hours = "11am to 10pm";
+                        break;
+                }
+
+                var text = txtNext;
+                await context.PostAsync(text);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
+
+            context.Wait(MessageReceived);
+        }
 
         public static string StripHTML(string text)
         {

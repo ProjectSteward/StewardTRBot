@@ -154,6 +154,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QnAMaker.cs" />
+    <Compile Include="StewardChainDialog.cs" />
     <Compile Include="StewardluisGuide.cs" />
   </ItemGroup>
   <ItemGroup>
