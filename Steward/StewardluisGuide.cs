@@ -155,12 +155,12 @@ namespace Steward
                     else
                     {
                    // await context.PostAsync("\n\n*Please enter/type \"Accept\" if you have no further question, else please carry on with your questions :)");    
-                    //PromptDialog.Choice(
-                    // context,
-                    // AfterMathAsync,
-                    // new String[2] { "Comeback later", "New query" },
-                    //  "Here's what we you can do next:","Didn't get that, please select one of the options:",
-                    // promptStyle: PromptStyle.Auto);
+                    PromptDialog.Choice(
+                     context,
+                     AfterMathAsync,
+                     new String[2] { "Comeback later", "New query" },
+                      "Here's what we you can do next:","Didn't get that, please select one of the options:",
+                     promptStyle: PromptStyle.Auto);
                 }
 
             }
