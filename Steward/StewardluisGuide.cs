@@ -36,7 +36,7 @@ namespace Steward
         {
             if (result.Entities.Count == 0 )
             {
-                await context.PostAsync($"Hi thanks for dropping by! \n **how can I help you?**");
+                await context.PostAsync($"Hi thanks for dropping by! \n **how can I help you?** \n\n *you can just type in your query, you need help in.*");
             }
             else
             {
@@ -47,19 +47,19 @@ namespace Steward
                 switch (switch_on)
                 {
                     case "hello":
-                        await context.PostAsync($"Hi thanks for checking in :)\n **how can I help you?**!");
+                        await context.PostAsync($"Hi thanks for checking in :)\n **how can I help you?**\n\n *you can just type in your query, you need help in.*");
                         break;
                     case "good morning":
-                        await context.PostAsync($"Very good morning to you!\n **how can I help you?**");
+                        await context.PostAsync($"Very good morning to you!\n **how can I help you?** \n\n *you can just type in your query, you need help in.*");
                         break;
                     case "good evening":
-                        await context.PostAsync($"Good Evening to you out there :)\n **how can I help you?**!");
+                        await context.PostAsync($"Good Evening to you out there :)\n **how can I help you?** \n\n *you can just type in your query, you need help in.*");
                         break;
                     case "good night":
-                        await context.PostAsync($"you have a good night!");
+                        await context.PostAsync($"you have a good night! \n\n *you can just type in your query, you need help in.*");
                         break;
                     default:
-                        await context.PostAsync("hi there!\n **how can I help you?**");
+                        await context.PostAsync("hi there!\n **how can I help you?** \n\n *you can just type in your query, you need help in.*");
                         break;
                 }
             }
@@ -88,7 +88,7 @@ namespace Steward
                       context,
                       AfterRateAsync,
                       new int[5] { 1, 2, 3, 4, 5 },
-                       "Thanks for dropping by! \n If you would like to **rate** us, please type **Feedback** \n\n Remember you can always ask me new queries at any time.",
+                       "Thanks for dropping by! \n\n If you would like to **rate** us, please type **Feedback** \n\n *Remember you can always ask me new queries at any time.*",
                       promptStyle: PromptStyle.Auto);
         }
 
@@ -109,7 +109,7 @@ namespace Steward
                     break;
             }
 
-            var text = $"Thanks for your feedback, have a nice day! \n\n Remember you can always ask me new queries at any time.";
+            var text = $"Thanks for your feedback, have a nice day! \n\n *Remember you can always ask me new queries at any time.*";
             await context.PostAsync(text);
             context.Wait(MessageReceived);
         }
@@ -159,15 +159,16 @@ namespace Steward
                      context,
                      AfterMathAsync,
                      new String[2] { "Comeback later", "New query" },
-                      "Here's what we you can do next:",
+                      "Here's what we you can do next:","Didn't get that, please select one of the options:",
                      promptStyle: PromptStyle.Auto);
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 //tc.TrackTrace($"NoIntent:: Exception: {e.Message}");
                 //await HandleConversationException(context, e);
+                //await context.PostAsync("Didn't understand, please ask your query");
             }
             finally
             {
@@ -184,7 +185,7 @@ namespace Steward
                 {
                     case "Comeback later":
                        // await GetFeedbackgeneric(context);
-                        txtNext = "Thanks for dropping by! \n If you would like to **rate** us, please type **Feedback** \n\n Remember you can always ask me new queries at any time.";
+                        txtNext = "Thanks for dropping by! \n\n If you would like to **rate** us, please type **Feedback** \n\n Remember you can always ask me new queries at any time.";
                         break;
                     case "New query":
                         txtNext = "Please carry on...";
