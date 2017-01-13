@@ -181,17 +181,17 @@ namespace Steward
             try
             {
                 var txtNext = "";
-                switch (await argument)
+                var answerString = await argument;
+                switch (answerString.ToLower())
                 {
-                    case "Comeback later":
+                    case "comeback later":
                        // await GetFeedbackgeneric(context);
                         txtNext = "Thanks for dropping by! \n\n If you would like to **rate** us, please type **Feedback** \n\n Remember you can always ask me new queries at any time.";
                         break;
-                    case "New query":
+                    case "new query":
                         txtNext = "Please carry on...";
                         break;
                     default:
-                        // hours = "11am to 10pm";
                         break;
                 }
 
