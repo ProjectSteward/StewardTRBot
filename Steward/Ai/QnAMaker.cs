@@ -1,20 +1,18 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Configuration;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
-
-namespace Steward.QnaMaker
+namespace Steward.Ai
 {
     [Serializable]
     public class QnaMakerKb
     {
-        private readonly Uri qnaBaseUri = new Uri("https://westus.api.cognitive.microsoft.com/qnamaker/v1.0");
-        private readonly string KbId = ConfigurationManager.AppSettings["QnaKnowledgeBaseId"];
-        private readonly string SubscriptionKey = ConfigurationManager.AppSettings["QnaSubscriptionKey"];
+        private readonly Uri _qnaBaseUri = new Uri("https://westus.api.cognitive.microsoft.com/qnamaker/v1.0");
+        private readonly string _kbId = ConfigurationManager.AppSettings["QnaKnowledgeBaseId"];
+        private readonly string _subscriptionKey = ConfigurationManager.AppSettings["QnaSubscriptionKey"];
 
         // Sample HTTP Request:
         // POST /knowledgebases/{KbId}/generateAnswer
@@ -24,10 +22,10 @@ namespace Steward.QnaMaker
         // {"question":"hi"}
         public async Task<QnaMakerResult> SearchKbAsync(string question)
         {
-            var responseString = string.Empty;
+            string responseString;
 
             //Build the URI
-            var uri = new UriBuilder($"{qnaBaseUri}/knowledgebases/{this.KbId}/generateAnswer").Uri;
+            var uri = new UriBuilder($"{_qnaBaseUri}/knowledgebases/{_kbId}/generateAnswer").Uri;
 
             var postBody = $"{{\"question\": \"{question}\"}}";
 
@@ -35,7 +33,7 @@ namespace Steward.QnaMaker
             using (var client = new WebClient())
             {
                 client.Headers.Add("Content-Type", "application/json");
-                client.Headers.Add("Ocp-Apim-Subscription-Key", this.SubscriptionKey);
+                client.Headers.Add("Ocp-Apim-Subscription-Key", _subscriptionKey);
                 responseString = await client.UploadStringTaskAsync(uri, postBody);
             }
 
