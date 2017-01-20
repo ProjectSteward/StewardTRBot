@@ -74,6 +74,12 @@ namespace Steward.Ai
 
         //Will run when no intent is triggered
         [LuisIntent("Help")]
+        public async Task AskHelpResponse(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync(Strings_EN.HelpMessage);
+            context.Wait(MessageReceived);
+        }
+
         [LuisIntent("None")]
         public async Task NoIntent(IDialogContext context, LuisResult result)
         {

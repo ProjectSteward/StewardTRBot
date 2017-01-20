@@ -117,6 +117,17 @@ namespace Steward.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hi!, I&apos;m Steward, i try to help you to get answers for some of the issues and queries that you have for the help desk,
+        ///
+        ///you can ask me questions like: where to download Eikon? etc..
+        /// </summary>
+        internal static string HelpMessage {
+            get {
+                return ResourceManager.GetString("HelpMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sorry I did not understand: you can ask me questions like: 
         ///where to download Eikon? etc.
         ///you can always enter **Help** to get more info..

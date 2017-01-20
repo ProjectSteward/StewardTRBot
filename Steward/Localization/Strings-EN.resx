@@ -143,6 +143,11 @@
 
 *you can just type in your query, you need help in.*</value>
   </data>
+  <data name="HelpMessage" xml:space="preserve">
+    <value>Hi!, I'm Steward, i try to help you to get answers for some of the issues and queries that you have for the help desk,
+
+you can ask me questions like: where to download Eikon? etc.</value>
+  </data>
   <data name="NoneIntent" xml:space="preserve">
     <value>Sorry I did not understand: you can ask me questions like: 
 where to download Eikon? etc.
