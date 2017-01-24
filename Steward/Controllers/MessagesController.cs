@@ -4,12 +4,19 @@ using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Steward.Ai;
+using Microsoft.Bot.Builder.Azure;
+using Autofac;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.Bot.Builder.History;
+using Microsoft.Azure;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 
 namespace Steward.Controllers
 {
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+       
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
             if (activity.Type == ActivityTypes.Message)
@@ -50,5 +57,25 @@ namespace Steward.Controllers
 
             return null;
         }
+        //static MessagesController()
+        //{
+        //    try
+        //    {
+        //        var builder = new ContainerBuilder();
+        //        var store = new TableBotDataStore(CloudStorageAccount.Parse(
+        //        CloudConfigurationManager.GetSetting("logtableconnectionstring")));
+        //        builder.Register(c => store)
+        //            .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
+        //            .AsSelf()
+        //            .SingleInstance();
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+
+        //        throw;
+        //    }
+
+        //    //await logger.LogAsync(activity);
+        //}
     }
 }
