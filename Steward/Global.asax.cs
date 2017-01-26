@@ -25,14 +25,15 @@ namespace Steward
                 // register the alarm dependencies
                 builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
 
-                var store = new TableBotDataStore(CloudStorageAccount.Parse(
-                CloudConfigurationManager.GetSetting("logtableconnectionstring")));
-                builder.Register(c => store)
+                var account = CloudStorageAccount.Parse(
+                    CloudConfigurationManager.GetSetting("logtableconnectionstring"));
+
+                builder.Register(c => new TableBotDataStore(account))
                     .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
                     .AsSelf()
                     .SingleInstance();
 
-
+                builder.RegisterModule(new TableLoggerModule(account, "ActivitiesLogger"));
 
                 // Get your HttpConfiguration.
                 var config = GlobalConfiguration.Configuration;
