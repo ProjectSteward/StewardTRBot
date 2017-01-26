@@ -168,4 +168,15 @@ If you would like to **rate** us, please type **Feedback** then follow with your
 
 Remember you can always ask me new queries at any time.</value>
   </data>
+  <data name="TRAddInDisabledInactive" xml:space="preserve">
+    <value>**Please check if the "Thomson Reuters" AddIn is disabled or deactivated**
+
+*To check please follow the steps:*
+1. Go to File -&gt; Excel Options -&gt; Add-ins 
+2. Check if "Thomson Reuters Eikon - Microsoft Office" appears in;     
+- Disabled Application Add-ins     
+- Inactive Application Add-ins
+
+Does it appear under disabled or deactivated?</value>
+  </data>
 </root>

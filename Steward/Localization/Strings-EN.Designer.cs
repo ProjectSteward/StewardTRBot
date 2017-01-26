@@ -170,5 +170,22 @@ namespace Steward.Localization {
                 return ResourceManager.GetString("ThanksMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to **Please check if the &quot;Thomson Reuters&quot; AddIn is disabled or deactivated**
+        ///
+        ///*To check please follow the steps:*
+        ///1. Go to File -&gt; Excel Options -&gt; Add-ins 
+        ///2. Check if &quot;Thomson Reuters Eikon - Microsoft Office&quot; appears in;     
+        ///- Disabled Application Add-ins     
+        ///- Inactive Application Add-ins
+        ///
+        ///Does it appear under disabled or deactivated?.
+        /// </summary>
+        internal static string TRAddInDisabledInactive {
+            get {
+                return ResourceManager.GetString("TRAddInDisabledInactive", resourceCulture);
+            }
+        }
     }
 }

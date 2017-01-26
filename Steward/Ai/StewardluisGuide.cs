@@ -5,6 +5,8 @@ using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
 using Steward.Localization;
+using Steward.Dialogs;
+using Microsoft.Bot.Builder.FormFlow;
 
 namespace Steward.Ai
 {
@@ -12,6 +14,8 @@ namespace Steward.Ai
     [Serializable]
     public class StewardluisGuide : LuisDialog<object>
     {
+
+    
         protected override async Task MessageReceived(IDialogContext context, IAwaitable<IMessageActivity> item)
         {
             var message = await item;
@@ -77,6 +81,62 @@ namespace Steward.Ai
         public async Task AskHelpResponse(IDialogContext context, LuisResult result)
         {
             await context.PostAsync(Strings_EN.HelpMessage);
+            context.Wait(MessageReceived);
+           
+        }
+
+        //Will run when no intent is triggered
+        [LuisIntent("Complex")]
+        public async Task AskComplexResponse(IDialogContext context, LuisResult result)
+        {
+            PromptDialog.Confirm(context, AfterConfirming_TRaddinAppear, "Does *TR Addin* appear in menubar?", promptStyle: PromptStyle.Auto);
+        }
+        public async Task AfterConfirming_TRaddinAppear(IDialogContext context, IAwaitable<bool> confirmation)
+        {
+            if (await confirmation)
+            {
+                PromptDialog.Confirm(context, AfterConfirming_TRaddinIncomplete, "Is TR incomplete missing buttons?", promptStyle: PromptStyle.Auto);
+            }
+            else
+            {
+                PromptDialog.Confirm(context, AfterConfirming_TRaddinDisabledDeactivated,Strings_EN.TRAddInDisabledInactive , promptStyle: PromptStyle.Auto);
+            }
+        }
+        public async Task AfterConfirming_TRaddinIncomplete(IDialogContext context, IAwaitable<bool> confirmation)
+        {
+            if (await confirmation)
+            {
+                PromptDialog.Confirm(context, AfterConfirming_OfficeRepair, "Run \"Repair\" for MS Office via Control Panel, did that work?", promptStyle: PromptStyle.Auto);
+            }
+            else
+            {
+                await context.PostAsync($"You are fine, stop wasting our time");
+            }
+        }
+        public async Task AfterConfirming_OfficeRepair(IDialogContext context, IAwaitable<bool> confirmation)
+        {
+            if (await confirmation)
+            {
+                await context.PostAsync($"We have fixed your problem, you are endebted to us for rest of your life!");
+               
+            }
+            else
+            {
+                await context.PostAsync($"Let me think what to do with you next!");
+                //PromptDialog.Confirm(context, AfterConfirming_OfficeRepair, "Run \"Repair\" for MS Office via Control Panel, did that work?", promptStyle: PromptStyle.Auto);
+            }
+        }
+
+        public async Task AfterConfirming_TRaddinDisabledDeactivated(IDialogContext context, IAwaitable<bool> confirmation)
+        {
+            if (await confirmation)
+            {
+                await context.PostAsync($"Enable AddIn");
+            }
+            else
+            {
+                await context.PostAsync($"Configure Add-in manually");
+            }
             context.Wait(MessageReceived);
         }
 

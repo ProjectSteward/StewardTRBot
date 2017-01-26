@@ -10,6 +10,8 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.Bot.Builder.History;
 using Microsoft.Azure;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.FormFlow;
+using Steward.Dialogs;
 
 namespace Steward.Controllers
 {
@@ -21,7 +23,15 @@ namespace Steward.Controllers
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new StewardluisGuide());
+                
+                if (activity.Text == "Complex")
+                {
+                   // await Conversation.SendAsync(activity, MakeRoot);
+                }
+                else
+                {
+                    await Conversation.SendAsync(activity, () => new StewardluisGuide());
+                }
             }
             else
             {
@@ -57,6 +67,36 @@ namespace Steward.Controllers
 
             return null;
         }
+
+        private static IForm<TRAddIn> BuildForm()
+        {
+            var builder = new FormBuilder<TRAddIn>();
+
+            //ActiveDelegate<TRAddIn> isBYO = (pizza) => pizza. == PizzaOptions.BYOPizza;
+            //ActiveDelegate<TRAddIn> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
+            //ActiveDelegate<TRAddIn> isGourmet = (pizza) => pizza.Kind == PizzaOptions.GourmetDelitePizza;
+            //ActiveDelegate<TRAddIn> isStuffed = (pizza) => pizza.Kind == PizzaOptions.StuffedPizza;
+
+            return builder
+                // .Field(nameof(PizzaOrder.Choice))
+                .Field(nameof(TRAddIn.mainQ))
+                .Field(nameof(TRAddIn.disabled))
+                .Field(nameof(TRAddIn.inactive))
+                .Field(nameof(TRAddIn.UACPoppup))
+                .Field(nameof(TRAddIn.RibbonInComplete))
+                .AddRemainingFields()
+                .Confirm("Is the TR Showing up at all?")
+                .Confirm("check if the TR addIn is disabled?")
+                .Confirm("Check if the TR AddIn in Inactive?")
+                .Confirm("Is the UAC Poppup happening?")
+                .Confirm("Is the Ribbon Complete?")
+                .Build()
+                ;
+        }
+        //internal static IDialog<TRAddIn> MakeRoot()
+        //{
+        //  //  return Chain.From(() => new ComplexluisGuide(BuildForm));
+        //}
         //static MessagesController()
         //{
         //    try

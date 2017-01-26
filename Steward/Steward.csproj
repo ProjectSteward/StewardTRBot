@@ -189,8 +189,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ai\ComplexluisGuide.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Dialogs\TRMenuBarAppearance.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
