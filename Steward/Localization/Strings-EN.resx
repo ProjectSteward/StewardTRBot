@@ -162,11 +162,7 @@ you can always enter **Help** to get more info.</value>
 Please rate this service between 1 to 5, 1 being unsatisfactory, 5 being excellent</value>
   </data>
   <data name="ThanksMessage" xml:space="preserve">
-    <value>Thanks for dropping by! 
-
-If you would like to **rate** us, please type **Feedback** then follow with your feedback
-
-Remember you can always ask me new queries at any time.</value>
+    <value>Thank you. You are always welcome</value>
   </data>
   <data name="TRAddInDisabledInactive" xml:space="preserve">
     <value>&lt;b&gt;Please check if the "Thomson Reuters" AddIn is disabled or deactivated&lt;/b&gt;
@@ -196,5 +192,10 @@ Does these steps resolve the issue?</value>
   <data name="TRTechSupportMandatory" xml:space="preserve">
     <value>Mandatory details: 1. Clear problem statement 2. Customer Eikon UUID 3. Reproduction stpes
 Logs to be collected: 1. Eikon Office Logs: Verbose 2. Dump Configuration 3. Procmon logs 4. Screenshot of issue 5. VDO recording (optional)</value>
+  </data>
+  <data name="AskForFeedbackMessage" xml:space="preserve">
+    <value>If you would like to **rate** us, please type **Feedback** then follow with your feedback
+
+Remember you can always ask me new queries at any time.</value>
   </data>
 </root>

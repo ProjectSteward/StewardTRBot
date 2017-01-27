@@ -70,6 +70,17 @@ namespace Steward.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you would like to **rate** us, please type **Feedback** then follow with your feedback
+        ///
+        ///Remember you can always ask me new queries at any time..
+        /// </summary>
+        internal static string AskForFeedbackMessage {
+            get {
+                return ResourceManager.GetString("AskForFeedbackMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Good Evening to you out there :)
         ///**how can I help you?**
         ///
@@ -159,11 +170,7 @@ namespace Steward.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thanks for dropping by! 
-        ///
-        ///If you would like to **rate** us, please type **Feedback** then follow with your feedback
-        ///
-        ///Remember you can always ask me new queries at any time..
+        ///   Looks up a localized string similar to Thank you. You are always welcome.
         /// </summary>
         internal static string ThanksMessage {
             get {
