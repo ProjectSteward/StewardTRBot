@@ -1,30 +1,10 @@
-﻿using Autofac;
-using Microsoft.Bot.Builder.Azure;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.History;
-using Microsoft.Bot.Connector;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Auth;
+﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using static Microsoft.Bot.Builder.Azure.TableLogger;
 using Microsoft.Azure;
-using System.Text.RegularExpressions;
-
-using System.Data.Entity;
-//using System.Data.Entity.Migrations;
-using System.Linq;
-
-using System.IO;
-using System.Collections.Generic;
-using System.Web;
-using System.Diagnostics;
-using System.Text;
+using Microsoft.Bot.Connector;
+using Microsoft.WindowsAzure.Storage.Table.Protocol;
 
 namespace readlogs
 {
@@ -32,89 +12,73 @@ namespace readlogs
     {
         static void Main(string[] args)
         {
-            List<qna> listCAEs = File.ReadAllLines("C:\\Users\\dighosh\\Documents\\qna1.tsv") // reads all lines into a string array
-                 .Skip(1) // skip header line
-                 .Select(f => qna.FromTsv(f)) // uses Linq to select each line and create a new Cae instance using the FromTsv method.
-                 .ToList();
-
-
-            CloudStorageAccount acc = CloudStorageAccount.Parse(
-     CloudConfigurationManager.GetSetting("logtableconnectionstring"));
+            var acc = CloudStorageAccount.Parse(
+                CloudConfigurationManager.GetSetting("logtableconnectionstring"));
             var tableClient = acc.CreateCloudTableClient();
-            var table = tableClient.GetTableReference("StewardHistory");
+            var table = tableClient.GetTableReference("ActivitiesLogger");
             TableContinuationToken token = null;
 
-            //TableBatchOperation batchOperation = new TableBatchOperation();
-
-            //var entities = new List<ActivityEntity>();
-            //do
-            //{
-            //    var queryResult = table.ExecuteQuerySegmented(new TableQuery<ActivityEntity>(), token);
-            //    entities.AddRange(queryResult.Results);
-            //    token = queryResult.ContinuationToken;
-            //    foreach (var activity in entities)
-            //    {
-            //        // activity.ReadEntity(activity.WriteEntity(null), null);
-            //    }
-            //} while (token != null);
-            foreach (qna item in listCAEs)
+            var qq = BuildQuery(null, null, new DateTime(2016, 01, 01)); // get conversation since date
+            do
             {
-                TableOperation insertOperation = TableOperation.Insert(item);
-                table.Execute(insertOperation);
-            }
-            
+                var queryResult = table.ExecuteQuerySegmented(qq, (pKey, rowKey, timestamp, properties, etag) =>
+                {
+                    var entity = new ActivityEntity();
+                    entity.ReadEntity(properties, null);
+                    return entity.Activity;
+                }, token);
+ 
+                foreach (var result in queryResult)
+                {
+                    var activity =  result as Activity;
+                    if (activity == null)
+                        continue;
+
+                    Console.WriteLine("{0} --> {1} @{2}:\t {3}\r\n\r\n", 
+                        GetSenderText(activity.From), 
+                        GetSenderText(activity.Recipient), 
+                        activity.Timestamp, activity.Text);
+                }
+                token = queryResult.ContinuationToken;
+            } while (token != null);
+
+            Console.ReadLine();
         }
 
-       
-        public class qna : TableEntity
+        private static string GetSenderText(ChannelAccount ca)
         {
-            public qna(string source, string question)
+            return string.IsNullOrEmpty(ca.Name) ? ca.Id : ca.Name;
+        }
+
+        // copied from TableLogger.cs in Microsoft.Bot.Builder.Azure
+        private static TableQuery BuildQuery(string channelId, string conversationId, DateTime oldest)
+        {
+            var query = new TableQuery();
+            string filter = null;
+            if (channelId != null && conversationId != null)
             {
-                
-                this.PartitionKey = source.Replace(' ', '-'); 
-                string rk = source + question;
-                rk = Regex.Replace(rk, @"/[^\w]/g", "");
-                rk = Regex.Replace(rk, @"\s+", "");
-
-                this.RowKey = rk;
+                var pkey = ActivityEntity.GeneratePartitionKey(channelId, conversationId);
+                filter = TableQuery.GenerateFilterCondition(TableConstants.PartitionKey, QueryComparisons.Equal, pkey);
             }
-            public string question { get; set; }
-            public string answer { get; set; }
-            public string source { get; set; }
-
-
-            public static string ToAzureKeyString(string str)
+            else if (channelId != null)
             {
-                var sb = new StringBuilder();
-                foreach (var c in str
-                    .Where(c => c != '/'
-                                && c != '\\'
-                                && c != '#'
-                                && c != '/'
-                                && c != '?'
-                                && c != '('
-                                && c != ')'
-                                && c != ','
-                                 && c != ','
-                                && !char.IsControl(c)))
-                {
-                    
-                    if (char.IsWhiteSpace(c)) { c.ToString().Replace(c,'-'); }
-                    sb.Append(c);
-                }
-                return sb.ToString();
+                var pkey = ActivityEntity.GeneratePartitionKey(channelId, "");
+                filter = TableQuery.GenerateFilterCondition(TableConstants.PartitionKey, QueryComparisons.GreaterThanOrEqual, pkey);
             }
-            public static qna FromTsv(string tsvLine)
+            if (oldest != default(DateTime))
             {
-                string[] values = tsvLine.Split('\t');
-
-                qna cae = new qna(values[2], ToAzureKeyString(values[0]));
-                cae.question = Convert.ToString(values[0]);
-                cae.answer = Convert.ToString(values[1]);
-                cae.source = Convert.ToString(values[2]);
-
-                return cae;
+                var rowKey = ActivityEntity.GenerateRowKey(oldest);
+                var rowFilter = TableQuery.GenerateFilterCondition(TableConstants.RowKey, QueryComparisons.GreaterThanOrEqual, rowKey);
+                filter = filter == null ? rowFilter : TableQuery.CombineFilters(filter, TableOperators.And, rowFilter);
             }
-        } 
+            if (filter != null)
+            {
+                query.Where(filter);
+            }
+            return query;
+        }
+        
     }
+
+    
 }
