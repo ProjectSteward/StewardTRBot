@@ -14,8 +14,6 @@ namespace Steward.Ai
     [Serializable]
     public class StewardluisGuide : LuisDialog<object>
     {
-
-    
         protected override async Task MessageReceived(IDialogContext context, IAwaitable<IMessageActivity> item)
         {
             var message = await item;
@@ -73,6 +71,7 @@ namespace Steward.Ai
         public async Task AppreciationResonse(IDialogContext context, LuisResult result)
         {
             await context.PostAsync(Strings_EN.ThanksMessage);
+            await context.PostAsync(Strings_EN.AskForFeedbackMessage);
             context.Wait(MessageReceived);
         }
 
@@ -224,7 +223,7 @@ namespace Steward.Ai
                     // props.Add("FoundInKB", "false");
                 }
 
-                await context.PostAsync(Strings_EN.ThanksMessage);
+                await context.PostAsync(Strings_EN.AskForFeedbackMessage);
                 context.Wait(MessageReceived);
             }
             catch (Exception)
