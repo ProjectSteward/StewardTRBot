@@ -159,7 +159,7 @@ you can always enter **Help** to get more info.</value>
     <value>Sorry, I wasn't able to find anything in the Knowledge Base. I've made a note and will try to get this added moving forwards.</value>
   </data>
   <data name="PromptRating" xml:space="preserve">
-    <value>#H1 Thanks for your feedback. 
+    <value># Thanks for your feedback. 
 
 Please rate this service between 1 to 5, 1 being unsatisfactory, 5 being excellent</value>
   </data>
@@ -167,7 +167,7 @@ Please rate this service between 1 to 5, 1 being unsatisfactory, 5 being excelle
     <value>Thank you. You are always welcome</value>
   </data>
   <data name="TRAddInDisabledInactive" xml:space="preserve">
-    <value>#H4 Please check if the "Thomson Reuters" AddIn is disabled or deactivated
+    <value># Please check if the "Thomson Reuters" AddIn is disabled or deactivated
 
 *To check please follow the steps:*
 1. Go to File -&gt; Excel Options -&gt; Add-ins 
@@ -178,7 +178,7 @@ Please rate this service between 1 to 5, 1 being unsatisfactory, 5 being excelle
 **Does it appear under disabled or deactivated?**</value>
   </data>
   <data name="TRAddinUAC" xml:space="preserve">
-    <value>#H4 Is there the "User Account Control (UAC)" pop up when Open Excel?
+    <value># Is there the "User Account Control (UAC)" pop up when Open Excel?
 
 *Please follow these steps to Unchecked Privilege Level (Run as Administrator) in case of UAC pop-up*
 

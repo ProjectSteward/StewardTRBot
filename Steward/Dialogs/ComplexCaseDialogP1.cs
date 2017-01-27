@@ -93,7 +93,7 @@ namespace Steward.Dialogs
             else
             {
                 await context.PostAsync(Strings_EN.TRTechSupportMandatory);
-                await context.PostAsync(Strings_EN.ThanksMessage);
+                await context.PostAsync(Strings_EN.AskForFeedbackMessage);
             }
             
         }

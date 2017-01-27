@@ -85,12 +85,14 @@ namespace Steward.Localization
         ///
         ///Remember you can always ask me new queries at any time..
         /// </summary>
-        internal static string AskForFeedbackMessage {
-            get {
+        internal static string AskForFeedbackMessage
+        {
+            get
+            {
                 return ResourceManager.GetString("AskForFeedbackMessage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Good Evening to you out there :)
         ///**how can I help you?**
@@ -186,7 +188,7 @@ namespace Steward.Localization
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to #H1 Thanks for your feedback. 
+        ///   Looks up a localized string similar to # Thanks for your feedback. 
         ///
         ///Please rate this service between 1 to 5, 1 being unsatisfactory, 5 being excellent.
         /// </summary>
@@ -210,7 +212,7 @@ namespace Steward.Localization
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to #H4 Please check if the &quot;Thomson Reuters&quot; AddIn is disabled or deactivated
+        ///   Looks up a localized string similar to # Please check if the &quot;Thomson Reuters&quot; AddIn is disabled or deactivated
         ///
         ///*To check please follow the steps:*
         ///1. Go to File -&gt; Excel Options -&gt; Add-ins 
@@ -229,7 +231,7 @@ namespace Steward.Localization
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to #H4 Is there the &quot;User Account Control (UAC)&quot; pop up when Open Excel?
+        ///   Looks up a localized string similar to # Is there the &quot;User Account Control (UAC)&quot; pop up when Open Excel?
         ///
         ///*Please follow these steps to Unchecked Privilege Level (Run as Administrator) in case of UAC pop-up*
         ///
@@ -239,7 +241,7 @@ namespace Steward.Localization
         ///3. Right-click on it and select &quot;Properties&quot; 
         ///4. Go to tab &quot;Compatibility&quot; and untick &quot;Run this program as an administrtor&quot;
         ///
-        ///*Once repair is done* -&gt;**Does these steps resol [rest of string was truncated]&quot;;.
+        ///*Once repair is done* -&gt;**Does these steps resolve the issue [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TRAddinUAC
         {
