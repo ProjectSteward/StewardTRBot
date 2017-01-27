@@ -1,6 +1,8 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
+using System.IO;
+using System.Linq;
 using static Microsoft.Bot.Builder.Azure.TableLogger;
 using Microsoft.Azure;
 using Microsoft.Bot.Connector;
@@ -12,11 +14,22 @@ namespace readlogs
     {
         static void Main(string[] args)
         {
-            var acc = CloudStorageAccount.Parse(
-                CloudConfigurationManager.GetSetting("logtableconnectionstring"));
+            var acc = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("logtableconnectionstring"));
             var tableClient = acc.CreateCloudTableClient();
             var table = tableClient.GetTableReference("ActivitiesLogger");
             TableContinuationToken token = null;
+
+            var tempFile = Path.GetTempPath() + "Steward.log";
+
+            try
+            {
+                File.Delete(tempFile);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Warning - Temp file is not found so we didn't delete");
+                Console.WriteLine($"Exception - {ex.Message}");
+            }
 
             var qq = BuildQuery(null, null, new DateTime(2016, 01, 01)); // get conversation since date
             do
@@ -27,17 +40,29 @@ namespace readlogs
                     entity.ReadEntity(properties, null);
                     return entity.Activity;
                 }, token);
- 
-                foreach (var result in queryResult)
+
+                foreach (var result in queryResult.OrderBy(r => r.Timestamp))
                 {
-                    var activity =  result as Activity;
+                    var activity = result as Activity;
                     if (activity == null)
                         continue;
 
-                    Console.WriteLine("{0} --> {1} @{2}:\t {3}\r\n\r\n", 
-                        GetSenderText(activity.From), 
-                        GetSenderText(activity.Recipient), 
-                        activity.Timestamp, activity.Text);
+                    var text = $"{GetSenderText(activity.From)} --> {GetSenderText(activity.Recipient)} @{activity.Timestamp}:\t {activity.Text}\r\n\r\n";
+
+                    Console.WriteLine(text);
+
+                    try
+                    {
+                        using (var file = new StreamWriter(tempFile, true))
+                        {
+                            file.WriteLine(text);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Fail to write this text - {text}");
+                        Console.WriteLine($"Exception - {ex.Message}");
+                    }
                 }
                 token = queryResult.ContinuationToken;
             } while (token != null);
