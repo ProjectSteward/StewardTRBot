@@ -46,8 +46,12 @@ namespace readlogs
                     var activity = result as Activity;
                     if (activity == null)
                         continue;
-
-                    var text = $"{GetSenderText(activity.From)} --> {GetSenderText(activity.Recipient)} @{activity.Timestamp}:\t {activity.Text}\r\n\r\n";
+                    
+                    var text = $"{GetSenderText(activity.From)} --> {GetSenderText(activity.Recipient)} @{activity.Timestamp}:\t {activity.Text}";
+                    if (activity.From != null && IsBot(activity.From.Id) == false)
+                    {
+                        text = "\r\n" + text;
+                    }
 
                     Console.WriteLine(text);
 
@@ -68,6 +72,20 @@ namespace readlogs
             } while (token != null);
 
             Console.ReadLine();
+        }
+
+        private static bool IsBot(string idToCheck)
+        {
+            if (string.IsNullOrEmpty(idToCheck))
+                return false;
+
+            if (string.Equals(idToCheck, "StewardTRBot@us4Vaf9M1mA", StringComparison.InvariantCultureIgnoreCase))
+                return true;
+
+            if (string.Equals(idToCheck,"56800324", StringComparison.InvariantCultureIgnoreCase))
+                return true;
+
+            return false;
         }
 
         private static string GetSenderText(ChannelAccount ca)
