@@ -172,19 +172,61 @@ namespace Steward.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to **Please check if the &quot;Thomson Reuters&quot; AddIn is disabled or deactivated**
-        ///
-        ///*To check please follow the steps:*
+        ///   Looks up a localized string similar to &lt;b&gt;Please check if the &quot;Thomson Reuters&quot; AddIn is disabled or deactivated&lt;/b&gt;
+        ///&lt;p&gt;
+        ///&lt;i&gt;To check please follow the steps:&lt;/i&gt;
         ///1. Go to File -&gt; Excel Options -&gt; Add-ins 
         ///2. Check if &quot;Thomson Reuters Eikon - Microsoft Office&quot; appears in;     
         ///- Disabled Application Add-ins     
         ///- Inactive Application Add-ins
-        ///
+        ///&lt;/p&gt;
         ///Does it appear under disabled or deactivated?.
         /// </summary>
         internal static string TRAddInDisabledInactive {
             get {
                 return ResourceManager.GetString("TRAddInDisabledInactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to **Is there the &quot;User Account Control (UAC)&quot; pop up when Open Excel?**
+        ///
+        ///*Please follow these steps to Unchecked Privilege Level (Run as Administrator) in case of UAC pop-up*
+        ///Unchecked Privilege Level: 1. Go to the part of MS Office in Program File (e.g. &quot;C:\Program Files (x86)\Microsoft Office\Office14&quot;) 2. Find &quot;EXCEL.EXE&quot; 3. Right-click on it and select &quot;Properties&quot; 4. Go to tab &quot;Compatibility&quot; and untick &quot;Run this program as an administrtor&quot;
+        ///
+        ///Does these steps resolve the issue?.
+        /// </summary>
+        internal static string TRAddinUAC {
+            get {
+                return ResourceManager.GetString("TRAddinUAC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manually add TR Office add-in: 1. Go to File -&gt; Excel Options -&gt; Add-ins 2. Select to manage &quot;COM Add-in&quot; 3. Click &quot;Add...&quot; and go to Eikon folder; &quot;C:\Program Files (x86)\Thomson Reuters\Eikon&quot; 5. Add &quot;EikonOfficeShim.dll&quot;.
+        /// </summary>
+        internal static string TRAdinConfigureManual {
+            get {
+                return ResourceManager.GetString("TRAdinConfigureManual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Add-in: 1. Go to File -&gt; Excel Options -&gt; Add-ins     - If Disabled - Select to manage &quot;Disable Items&quot;     - IF Inactive - Select to manage &quot;COM Add-in&quot; 2. Enable &quot;Thomson Reuters Eikon - Microsoft Office&quot; Add-in.
+        /// </summary>
+        internal static string TRAdinEnable {
+            get {
+                return ResourceManager.GetString("TRAdinEnable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mandatory details: 1. Clear problem statement 2. Customer Eikon UUID 3. Reproduction stpes
+        ///Logs to be collected: 1. Eikon Office Logs: Verbose 2. Dump Configuration 3. Procmon logs 4. Screenshot of issue 5. VDO recording (optional).
+        /// </summary>
+        internal static string TRTechSupportMandatory {
+            get {
+                return ResourceManager.GetString("TRTechSupportMandatory", resourceCulture);
             }
         }
     }

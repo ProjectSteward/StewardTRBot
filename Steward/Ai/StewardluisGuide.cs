@@ -95,7 +95,7 @@ namespace Steward.Ai
         {
             if (await confirmation)
             {
-                PromptDialog.Confirm(context, AfterConfirming_TRaddinIncomplete, "Is TR incomplete missing buttons?", promptStyle: PromptStyle.Auto);
+                PromptDialog.Confirm(context, AfterConfirming_TRaddinIncomplete,     "Is TR incomplete missing buttons?", promptStyle: PromptStyle.Auto);
             }
             else
             {
@@ -122,8 +122,8 @@ namespace Steward.Ai
             }
             else
             {
-                await context.PostAsync($"Let me think what to do with you next!");
-                //PromptDialog.Confirm(context, AfterConfirming_OfficeRepair, "Run \"Repair\" for MS Office via Control Panel, did that work?", promptStyle: PromptStyle.Auto);
+                //await context.PostAsync($"Let me think what to do with you next!");
+                PromptDialog.Confirm(context, AfterConfirming_Nothingworks, "Reinstall MS Office and Eikon. Did that worked?", promptStyle: PromptStyle.Auto);
             }
         }
 
@@ -131,11 +131,38 @@ namespace Steward.Ai
         {
             if (await confirmation)
             {
-                await context.PostAsync($"Enable AddIn");
+                PromptDialog.Confirm(context, AfterConfirming_AddInConfigProb,Strings_EN.TRAdinEnable +  " Did this solve the issue", promptStyle: PromptStyle.Auto);
             }
             else
             {
-                await context.PostAsync($"Configure Add-in manually");
+                PromptDialog.Confirm(context, AfterConfirming_AddInConfigProb, Strings_EN.TRAdinConfigureManual + " Did this solve the issue", promptStyle: PromptStyle.Auto);
+            }
+
+        }
+        public async Task AfterConfirming_AddInConfigProb(IDialogContext context, IAwaitable<bool> confirmation)
+        {
+            if (await confirmation)
+            {
+               
+                await context.PostAsync($"We have fixed your problem, you are endebted to us for rest of your life!");
+                context.Wait(MessageReceived);
+            }
+            else
+            {
+                PromptDialog.Confirm(context, AfterConfirming_Nothingworks, Strings_EN.TRAddinUAC, promptStyle: PromptStyle.Auto);
+            }
+
+        }
+        public async Task AfterConfirming_Nothingworks(IDialogContext context, IAwaitable<bool> confirmation)
+        {
+            if (await confirmation)
+            {
+
+                await context.PostAsync($"We have fixed your problem, you are endebted to us for rest of your life!");
+            }
+            else
+            {
+                await context.PostAsync($"Please contact Technical Support and do remember to have following list handy: " + Strings_EN.TRTechSupportMandatory);
             }
             context.Wait(MessageReceived);
         }
