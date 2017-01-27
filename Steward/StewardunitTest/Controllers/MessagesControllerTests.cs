@@ -11,10 +11,10 @@ namespace Steward.Controllers.Tests
     [TestClass()]
     public class MessagesControllerTests
     {
-        [TestMethod()]
-        public void PostTest()
-        {
-            Assert.Fail();
-        }
+        //[TestMethod()]
+        //public void PostTest()
+        //{
+        //    Assert.Fail();
+        //}
     }
 }
