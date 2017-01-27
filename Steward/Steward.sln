@@ -18,8 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureSearchDump", "..\Azure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StewardunitTest", "StewardunitTest\StewardunitTest.csproj", "{B80CB012-56E7-4B34-8F7A-0DFEE1BBB092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Steward.Tests", "..\Steward.Tests\Steward.Tests.csproj", "{2257200F-B313-4161-892E-208D983CD5F6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,10 +40,6 @@ Global
 		{B80CB012-56E7-4B34-8F7A-0DFEE1BBB092}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B80CB012-56E7-4B34-8F7A-0DFEE1BBB092}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B80CB012-56E7-4B34-8F7A-0DFEE1BBB092}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2257200F-B313-4161-892E-208D983CD5F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2257200F-B313-4161-892E-208D983CD5F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2257200F-B313-4161-892E-208D983CD5F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2257200F-B313-4161-892E-208D983CD5F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
