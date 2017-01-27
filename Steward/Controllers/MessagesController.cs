@@ -24,14 +24,8 @@ namespace Steward.Controllers
             if (activity.Type == ActivityTypes.Message)
             {
                 
-                if (activity.Text == "Complex")
-                {
-                   // await Conversation.SendAsync(activity, MakeRoot);
-                }
-                else
-                {
-                    await Conversation.SendAsync(activity, () => new StewardluisGuide());
-                }
+               await Conversation.SendAsync(activity, () => new StewardluisGuide());
+
             }
             else
             {
@@ -67,7 +61,7 @@ namespace Steward.Controllers
 
             return null;
         }
-
+        //This was used for a form builder case study in steward
         private static IForm<TRAddIn> BuildForm()
         {
             var builder = new FormBuilder<TRAddIn>();

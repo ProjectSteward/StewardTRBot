@@ -146,7 +146,9 @@
   <data name="HelpMessage" xml:space="preserve">
     <value>Hi!, I'm Steward, i try to help you to get answers for some of the issues and queries that you have for the help desk,
 
-you can ask me questions like: where to download Eikon? etc.</value>
+you can ask me questions like: where to download Eikon? etc.
+
+you can get more information @ [Steward Help](#https://thehub.thomsonreuters.com/docs/DOC-2145793)</value>
   </data>
   <data name="NoneIntent" xml:space="preserve">
     <value>Sorry I did not understand: you can ask me questions like: 
@@ -169,32 +171,77 @@ If you would like to **rate** us, please type **Feedback** then follow with your
 Remember you can always ask me new queries at any time.</value>
   </data>
   <data name="TRAddInDisabledInactive" xml:space="preserve">
-    <value>&lt;b&gt;Please check if the "Thomson Reuters" AddIn is disabled or deactivated&lt;/b&gt;
-&lt;p&gt;
-&lt;i&gt;To check please follow the steps:&lt;/i&gt;
+    <value>#H4 Please check if the "Thomson Reuters" AddIn is disabled or deactivated
+
+*To check please follow the steps:*
 1. Go to File -&gt; Excel Options -&gt; Add-ins 
 2. Check if "Thomson Reuters Eikon - Microsoft Office" appears in;     
 - Disabled Application Add-ins     
 - Inactive Application Add-ins
-&lt;/p&gt;
-Does it appear under disabled or deactivated?</value>
+
+**Does it appear under disabled or deactivated?**</value>
   </data>
   <data name="TRAddinUAC" xml:space="preserve">
-    <value>**Is there the "User Account Control (UAC)" pop up when Open Excel?**
+    <value>#H4 Is there the "User Account Control (UAC)" pop up when Open Excel?
 
 *Please follow these steps to Unchecked Privilege Level (Run as Administrator) in case of UAC pop-up*
-Unchecked Privilege Level: 1. Go to the part of MS Office in Program File (e.g. "C:\Program Files (x86)\Microsoft Office\Office14") 2. Find "EXCEL.EXE" 3. Right-click on it and select "Properties" 4. Go to tab "Compatibility" and untick "Run this program as an administrtor"
 
-Does these steps resolve the issue?</value>
+Unchecked Privilege Level: 
+1. Go to the part of MS Office in Program File (e.g. "C:\Program Files (x86)\Microsoft Office\Office14") 
+2. Find "EXCEL.EXE" 
+3. Right-click on it and select "Properties" 
+4. Go to tab "Compatibility" and untick "Run this program as an administrtor"
+
+*Once repair is done* -&gt;**Does these steps resolve the issue?**</value>
   </data>
   <data name="TRAdinConfigureManual" xml:space="preserve">
-    <value>Manually add TR Office add-in: 1. Go to File -&gt; Excel Options -&gt; Add-ins 2. Select to manage "COM Add-in" 3. Click "Add..." and go to Eikon folder; "C:\Program Files (x86)\Thomson Reuters\Eikon" 5. Add "EikonOfficeShim.dll"</value>
+    <value>*Manually add TR Office add-in:* 
+1. Go to File -&gt; Excel Options -&gt; Add-ins 
+2. Select to manage "COM Add-in" 
+3. Click "Add..." and go to Eikon folder; "C:\Program Files (x86)\Thomson Reuters\Eikon" 
+4. Add "EikonOfficeShim.dll"
+
+*Once the configuration is done*-&gt; **Did this solve the issue?**</value>
   </data>
   <data name="TRAdinEnable" xml:space="preserve">
-    <value>Enable Add-in: 1. Go to File -&gt; Excel Options -&gt; Add-ins     - If Disabled - Select to manage "Disable Items"     - IF Inactive - Select to manage "COM Add-in" 2. Enable "Thomson Reuters Eikon - Microsoft Office" Add-in</value>
+    <value>**Enable Add-in:** 
+1. Go to File -&gt; Excel Options -&gt; Add-ins     
+- If Disabled - Select to manage "Disable Items"
+- IF Inactive - Select to manage "COM Add-in" 
+2. Enable "Thomson Reuters Eikon 
+- Microsoft Office" Add-in
+
+*Once the above steps are followed* -&gt; **Did this solve the issue?**</value>
+  </data>
+  <data name="TRMissingMenu" xml:space="preserve">
+    <value>**Is TR Ribbon incomplete?** *(missing buttons, #NAME? for functions)?*</value>
+  </data>
+  <data name="TRReInstall" xml:space="preserve">
+    <value>Please go ahead and **Reinstall MS Office and Eikon.**
+
+*Once you are through reinstalling*-&gt; **Did that work?**</value>
+  </data>
+  <data name="TRRepair" xml:space="preserve">
+    <value>Run **"Repair"** for MS Office via Control Panel.
+ 
+*Once repair is done* -&gt; tell us if that worked?</value>
+  </data>
+  <data name="TRTabAppear" xml:space="preserve">
+    <value>Does **"Thomson Reuters"** tab appear in the menu bar?</value>
   </data>
   <data name="TRTechSupportMandatory" xml:space="preserve">
-    <value>Mandatory details: 1. Clear problem statement 2. Customer Eikon UUID 3. Reproduction stpes
-Logs to be collected: 1. Eikon Office Logs: Verbose 2. Dump Configuration 3. Procmon logs 4. Screenshot of issue 5. VDO recording (optional)</value>
+    <value>#Please contact Technical Support and do remember to have following list handy: 
+
+**Mandatory details:** 
+1. Clear problem statement 
+2. Customer Eikon UUID 
+3. Reproduction steps
+
+*Logs to be collected:*
+1. Eikon Office Logs: Verbose 
+2. Dump Configuration 
+3. Procmon logs 
+4. Screenshot of issue 
+5. VDO recording (optional)</value>
   </data>
 </root>

@@ -89,83 +89,106 @@ namespace Steward.Ai
         [LuisIntent("Complex")]
         public async Task AskComplexResponse(IDialogContext context, LuisResult result)
         {
-            PromptDialog.Confirm(context, AfterConfirming_TRaddinAppear, "Does *TR Addin* appear in menubar?", promptStyle: PromptStyle.Auto);
-        }
-        public async Task AfterConfirming_TRaddinAppear(IDialogContext context, IAwaitable<bool> confirmation)
-        {
-            if (await confirmation)
-            {
-                PromptDialog.Confirm(context, AfterConfirming_TRaddinIncomplete,     "Is TR incomplete missing buttons?", promptStyle: PromptStyle.Auto);
-            }
-            else
-            {
-                PromptDialog.Confirm(context, AfterConfirming_TRaddinDisabledDeactivated,Strings_EN.TRAddInDisabledInactive , promptStyle: PromptStyle.Auto);
-            }
-        }
-        public async Task AfterConfirming_TRaddinIncomplete(IDialogContext context, IAwaitable<bool> confirmation)
-        {
-            if (await confirmation)
-            {
-                PromptDialog.Confirm(context, AfterConfirming_OfficeRepair, "Run \"Repair\" for MS Office via Control Panel, did that work?", promptStyle: PromptStyle.Auto);
-            }
-            else
-            {
-                await context.PostAsync($"You are fine, stop wasting our time");
-            }
-        }
-        public async Task AfterConfirming_OfficeRepair(IDialogContext context, IAwaitable<bool> confirmation)
-        {
-            if (await confirmation)
-            {
-                await context.PostAsync($"We have fixed your problem, you are endebted to us for rest of your life!");
-               
-            }
-            else
-            {
-                //await context.PostAsync($"Let me think what to do with you next!");
-                PromptDialog.Confirm(context, AfterConfirming_Nothingworks, "Reinstall MS Office and Eikon. Did that worked?", promptStyle: PromptStyle.Auto);
-            }
+            await ComplexCaseDialogP1.StartAsync(context);
         }
 
-        public async Task AfterConfirming_TRaddinDisabledDeactivated(IDialogContext context, IAwaitable<bool> confirmation)
-        {
-            if (await confirmation)
-            {
-                PromptDialog.Confirm(context, AfterConfirming_AddInConfigProb,Strings_EN.TRAdinEnable +  " Did this solve the issue", promptStyle: PromptStyle.Auto);
-            }
-            else
-            {
-                PromptDialog.Confirm(context, AfterConfirming_AddInConfigProb, Strings_EN.TRAdinConfigureManual + " Did this solve the issue", promptStyle: PromptStyle.Auto);
-            }
+        //#region prompt dialog region test
+        //private async Task complexDialogResumeAfter(IDialogContext context, IAwaitable<string> result)
+        //{
+        //    try
+        //    {
+        //        string text = await result;
 
-        }
-        public async Task AfterConfirming_AddInConfigProb(IDialogContext context, IAwaitable<bool> confirmation)
-        {
-            if (await confirmation)
-            {
-               
-                await context.PostAsync($"We have fixed your problem, you are endebted to us for rest of your life!");
-                context.Wait(MessageReceived);
-            }
-            else
-            {
-                PromptDialog.Confirm(context, AfterConfirming_Nothingworks, Strings_EN.TRAddinUAC, promptStyle: PromptStyle.Auto);
-            }
+        //        await context.PostAsync(text);
 
-        }
-        public async Task AfterConfirming_Nothingworks(IDialogContext context, IAwaitable<bool> confirmation)
-        {
-            if (await confirmation)
-            {
+        //    }
+        //    catch (TooManyAttemptsException)
+        //    {
+        //        await context.PostAsync("I'm sorry, I'm having issues understanding you. Let's try again.");
+        //    }
+        //    finally
+        //    {
+        //        // await this.SendWelcomeMessageAsync(context);
+        //    }
+        //    context.Wait(MessageReceived);
+        //}
+        //public async Task AfterConfirming_TRaddinAppear(IDialogContext context, IAwaitable<bool> confirmation)
+        //{
+        //    if (await confirmation)
+        //    {
+        //        PromptDialog.Confirm(context, AfterConfirming_TRaddinIncomplete, "Is TR incomplete missing buttons?", promptStyle: PromptStyle.Auto);
+        //    }
+        //    else
+        //    {
+        //        PromptDialog.Confirm(context, AfterConfirming_TRaddinDisabledDeactivated, Strings_EN.TRAddInDisabledInactive, promptStyle: PromptStyle.Auto);
+        //    }
+        //}
+        //public async Task AfterConfirming_TRaddinIncomplete(IDialogContext context, IAwaitable<bool> confirmation)
+        //{
+        //    if (await confirmation)
+        //    {
+        //        PromptDialog.Confirm(context, AfterConfirming_OfficeRepair, Strings_EN.TRRepair, promptStyle: PromptStyle.Auto);
+        //    }
+        //    else
+        //    {
+        //        await context.PostAsync(Strings_EN.ThanksMessage);
+        //    }
+        //}
+        //public async Task AfterConfirming_OfficeRepair(IDialogContext context, IAwaitable<bool> confirmation)
+        //{
+        //    if (await confirmation)
+        //    {
+        //        await context.PostAsync(Strings_EN.ThanksMessage);
 
-                await context.PostAsync($"We have fixed your problem, you are endebted to us for rest of your life!");
-            }
-            else
-            {
-                await context.PostAsync($"Please contact Technical Support and do remember to have following list handy: " + Strings_EN.TRTechSupportMandatory);
-            }
-            context.Wait(MessageReceived);
-        }
+        //    }
+        //    else
+        //    {
+        //        //await context.PostAsync($"Let me think what to do with you next!");
+        //        PromptDialog.Confirm(context, AfterConfirming_Nothingworks, "Reinstall MS Office and Eikon. Did that worked?", promptStyle: PromptStyle.Auto);
+        //    }
+        //}
+
+        //public async Task AfterConfirming_TRaddinDisabledDeactivated(IDialogContext context, IAwaitable<bool> confirmation)
+        //{
+        //    if (await confirmation)
+        //    {
+        //        PromptDialog.Confirm(context, AfterConfirming_AddInConfigProb, Strings_EN.TRAdinEnable, promptStyle: PromptStyle.Auto);
+        //    }
+        //    else
+        //    {
+        //        PromptDialog.Confirm(context, AfterConfirming_AddInConfigProb, Strings_EN.TRAdinConfigureManual, promptStyle: PromptStyle.Auto);
+        //    }
+
+        //}
+        //public async Task AfterConfirming_AddInConfigProb(IDialogContext context, IAwaitable<bool> confirmation)
+        //{
+        //    if (await confirmation)
+        //    {
+
+        //        await context.PostAsync(Strings_EN.ThanksMessage);
+        //        context.Wait(MessageReceived);
+        //    }
+        //    else
+        //    {
+        //        PromptDialog.Confirm(context, AfterConfirming_Nothingworks, Strings_EN.TRAddinUAC, promptStyle: PromptStyle.Auto);
+        //    }
+
+        //}
+        //public async Task AfterConfirming_Nothingworks(IDialogContext context, IAwaitable<bool> confirmation)
+        //{
+        //    if (await confirmation)
+        //    {
+
+        //        await context.PostAsync(Strings_EN.ThanksMessage);
+        //    }
+        //    else
+        //    {
+        //        await context.PostAsync(Strings_EN.TRTechSupportMandatory);
+        //    }
+        //    context.Wait(MessageReceived);
+        //}
+        //#endregion
+
 
         [LuisIntent("None")]
         public async Task NoIntent(IDialogContext context, LuisResult result)

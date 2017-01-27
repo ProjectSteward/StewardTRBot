@@ -192,6 +192,7 @@
     <Compile Include="Ai\ComplexluisGuide.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Dialogs\ComplexCaseDialogP1.cs" />
     <Compile Include="Dialogs\TRMenuBarAppearance.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -229,8 +230,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Localization\Strings-EN.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings-EN.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Strings-EN1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
