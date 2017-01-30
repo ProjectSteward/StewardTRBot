@@ -46,8 +46,19 @@ namespace readlogs
                     var activity = result as Activity;
                     if (activity == null)
                         continue;
-                    
-                    var text = $"{GetSenderText(activity.From)} --> {GetSenderText(activity.Recipient)} @{activity.Timestamp}:\t {activity.Text}";
+
+                    var replyText = activity.Text;
+                    if (string.IsNullOrEmpty(replyText))
+                    {
+                        // try checking the attachment
+                        if (activity.Attachments != null && activity.Attachments.Any())
+                        {
+                            replyText = activity.Attachments[0].Content.ToString();
+                        }
+                    }
+
+                    var text = $"{GetSenderText(activity.From)} --> {GetSenderText(activity.Recipient)} @{activity.Timestamp}:\t {replyText}";
+
                     if (activity.From != null && IsBot(activity.From.Id) == false)
                     {
                         text = "\r\n" + text;
