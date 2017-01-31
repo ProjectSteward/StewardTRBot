@@ -204,8 +204,7 @@ namespace Steward.Ai
                 var qnaMakerKb = new QnaMakerKb();
                 var searchResult = await qnaMakerKb.SearchKbAsync(result.Query);
 
-                // Handle when it's more than 50%
-                if (searchResult != null && searchResult.Score > 40)
+                if (searchResult != null)
                 {
                     sentReply = true;
 
@@ -213,6 +212,7 @@ namespace Steward.Ai
                     //var replyContent = MessageHelper.StripHtml(searchResult.Answer);
 
                     await context.PostAsync(searchResult.Answer);
+                    await context.PostAsync("Confidence Level [0-100]: " + searchResult.Score);
                 }
 
                 if (!sentReply)
