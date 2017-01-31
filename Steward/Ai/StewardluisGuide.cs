@@ -114,20 +114,18 @@ namespace Steward.Ai
                 var qnaMakerKb = new QnaMakerKb();
                 var searchResult = await qnaMakerKb.SearchKbAsync(result.Query);
 
-                if (searchResult != null)
+                if (searchResult != null && searchResult.Score > 1.0)
                 {
-                    sentReply = true;
-
                     // TODO move from AzureSearchHelper
                     //var replyContent = MessageHelper.StripHtml(searchResult.Answer);
 
                     await context.PostAsync(searchResult.Answer);
                     await context.PostAsync("Confidence Level: " + searchResult.Score + "%");
                 }
-
-                if (!sentReply)
+                else
                 {
                     await context.PostAsync(Strings_EN.NotFoundInKb);
+                    await context.PostAsync("Confidence Level: 0%");
 
                     // TODO Add to tracing system
                     // props.Add("FoundInKB", "false");
