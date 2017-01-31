@@ -174,7 +174,9 @@ namespace Steward.Localization {
         /// <summary>
         ///   Looks up a localized string similar to I&apos;m sorry to hear that. Would you mind providing your feedback so I can answer your question in future?
         ///
-        ///Please type **Feedback** then follow with your feedback. Thank you!.
+        ///Please type **Feedback** then follow with your feedback. Thank you!
+        ///
+        ///Remember you can always ask me new queries at any time..
         /// </summary>
         internal static string SorryMessage {
             get {

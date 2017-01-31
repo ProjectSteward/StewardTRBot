@@ -79,7 +79,6 @@ namespace Steward.Ai
         public async Task SorryResponse(IDialogContext context, LuisResult result)
         {
             await context.PostAsync(Strings_EN.SorryMessage);
-            await context.PostAsync(Strings_EN.AskForFeedbackMessage);
             context.Wait(MessageReceived);
         }
 
