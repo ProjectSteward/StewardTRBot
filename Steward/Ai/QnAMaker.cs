@@ -27,7 +27,10 @@ namespace Steward.Ai
             //Build the URI
             var uri = new UriBuilder($"{_qnaBaseUri}/knowledgebases/{_kbId}/generateAnswer").Uri;
 
-            var postBody = $"{{\"question\": \"{question}\"}}";
+            var postBody = JsonConvert.SerializeObject(new QnaMakerQuestion
+            {
+                Question = question
+            });
 
             //Send the POST request
             using (var client = new WebClient())
@@ -54,6 +57,15 @@ namespace Steward.Ai
             }
 
             return response;
+        }
+
+        public class QnaMakerQuestion
+        {
+            /// <summary>
+            /// The top answer found in the QnA Service.
+            /// </summary>
+            [JsonProperty(PropertyName = "question")]
+            public string Question { get; set; }
         }
 
         public class QnaMakerResult

@@ -6,7 +6,6 @@ using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
 using Steward.Localization;
 using Steward.Dialogs;
-using Microsoft.Bot.Builder.FormFlow;
 
 namespace Steward.Ai
 {
@@ -131,11 +130,16 @@ namespace Steward.Ai
                 }
 
                 await context.PostAsync(Strings_EN.AskForFeedbackMessage);
-                context.Wait(MessageReceived);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // TODO: Log Error
+                await context.PostAsync(Strings_EN.NotFoundInKb);
+                await context.PostAsync("Confidence Level: 0%");
+            }
+            finally
+            {
+                context.Wait(MessageReceived);
             }
         }
 
