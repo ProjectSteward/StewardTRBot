@@ -122,7 +122,7 @@ namespace Steward.Ai
                     //var replyContent = MessageHelper.StripHtml(searchResult.Answer);
 
                     await context.PostAsync(searchResult.Answer);
-                    await context.PostAsync("Confidence Level [0-100]: " + searchResult.Score);
+                    await context.PostAsync("Confidence Level: " + searchResult.Score + "%");
                 }
 
                 if (!sentReply)
