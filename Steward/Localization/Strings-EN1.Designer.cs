@@ -8,11 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Steward.Localization
-{
+namespace Steward.Localization {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,131 +22,111 @@ namespace Steward.Localization
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Strings_EN
-    {
-
+    internal class Strings_EN {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Strings_EN()
-        {
+        internal Strings_EN() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Steward.Localization.Strings-EN", typeof(Strings_EN).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Thank you! Please remember that you can carry on asking more questions.
         /// </summary>
-        internal static string AfterRating
-        {
-            get
-            {
+        internal static string AfterRating {
+            get {
                 return ResourceManager.GetString("AfterRating", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to If you would like to **rate** us, please type **Feedback** then follow with your feedback
         ///
         ///Remember you can always ask me new queries at any time..
         /// </summary>
-        internal static string AskForFeedbackMessage
-        {
-            get
-            {
+        internal static string AskForFeedbackMessage {
+            get {
                 return ResourceManager.GetString("AskForFeedbackMessage", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Good Evening to you out there :)
         ///**how can I help you?**
         ///
         ///*you can just type in your query, you need help in.*.
         /// </summary>
-        internal static string GoodEveningMessage
-        {
-            get
-            {
+        internal static string GoodEveningMessage {
+            get {
                 return ResourceManager.GetString("GoodEveningMessage", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Very good morning to you too!
         ///**how can I help you?**
         ///
         ///*you can just type in your query, you need help in.*.
         /// </summary>
-        internal static string GoodMorningMessage
-        {
-            get
-            {
+        internal static string GoodMorningMessage {
+            get {
                 return ResourceManager.GetString("GoodMorningMessage", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to you have a good night too!
         ///
         ///*you can just type in your query, you need help in.*.
         /// </summary>
-        internal static string GoodNightMessage
-        {
-            get
-            {
+        internal static string GoodNightMessage {
+            get {
                 return ResourceManager.GetString("GoodNightMessage", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Hi thanks for dropping by!
         ///**how can I help you?**
         ///
         ///*you can just type in your query, you need help in.*.
         /// </summary>
-        internal static string GreetingMessage
-        {
-            get
-            {
+        internal static string GreetingMessage {
+            get {
                 return ResourceManager.GetString("GreetingMessage", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Hi!, I&apos;m Steward, i try to help you to get answers for some of the issues and queries that you have for the help desk,
         ///
@@ -155,62 +134,63 @@ namespace Steward.Localization
         ///
         ///you can get more information @ [Steward Help](#https://thehub.thomsonreuters.com/docs/DOC-2145793).
         /// </summary>
-        internal static string HelpMessage
-        {
-            get
-            {
+        internal static string HelpMessage {
+            get {
                 return ResourceManager.GetString("HelpMessage", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Sorry I did not understand: you can ask me questions like: 
         ///where to download Eikon? etc.
         ///you can always enter **Help** to get more info..
         /// </summary>
-        internal static string NoneIntent
-        {
-            get
-            {
+        internal static string NoneIntent {
+            get {
                 return ResourceManager.GetString("NoneIntent", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Sorry, I wasn&apos;t able to find anything in the Knowledge Base. I&apos;ve made a note and will try to get this added moving forwards..
         /// </summary>
-        internal static string NotFoundInKb
-        {
-            get
-            {
+        internal static string NotFoundInKb {
+            get {
                 return ResourceManager.GetString("NotFoundInKb", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to # Thanks for your feedback. 
         ///
         ///Please rate this service between 1 to 5, 1 being unsatisfactory, 5 being excellent.
         /// </summary>
-        internal static string PromptRating
-        {
-            get
-            {
+        internal static string PromptRating {
+            get {
                 return ResourceManager.GetString("PromptRating", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I&apos;m sorry to hear that. Would you mind providing your feedback so I can answer your question in future?
+        ///
+        ///Please type **Feedback** then follow with your feedback. Thank you!.
+        /// </summary>
+        internal static string SorryMessage {
+            get {
+                return ResourceManager.GetString("SorryMessage", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Thank you. You are always welcome.
         /// </summary>
-        internal static string ThanksMessage
-        {
-            get
-            {
+        internal static string ThanksMessage {
+            get {
                 return ResourceManager.GetString("ThanksMessage", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to # Please check if the &quot;Thomson Reuters&quot; AddIn is disabled or deactivated
         ///
@@ -222,14 +202,12 @@ namespace Steward.Localization
         ///
         ///**Does it appear under disabled or deactivated?**.
         /// </summary>
-        internal static string TRAddInDisabledInactive
-        {
-            get
-            {
+        internal static string TRAddInDisabledInactive {
+            get {
                 return ResourceManager.GetString("TRAddInDisabledInactive", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to # Is there the &quot;User Account Control (UAC)&quot; pop up when Open Excel?
         ///
@@ -241,16 +219,14 @@ namespace Steward.Localization
         ///3. Right-click on it and select &quot;Properties&quot; 
         ///4. Go to tab &quot;Compatibility&quot; and untick &quot;Run this program as an administrtor&quot;
         ///
-        ///*Once repair is done* -&gt;**Does these steps resolve the issue [rest of string was truncated]&quot;;.
+        ///*Once repair is done* -&gt;**Does these steps resolve [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string TRAddinUAC
-        {
-            get
-            {
+        internal static string TRAddinUAC {
+            get {
                 return ResourceManager.GetString("TRAddinUAC", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to *Manually add TR Office add-in:* 
         ///1. Go to File -&gt; Excel Options -&gt; Add-ins 
@@ -260,14 +236,12 @@ namespace Steward.Localization
         ///
         ///*Once the configuration is done*-&gt; **Did this solve the issue?**.
         /// </summary>
-        internal static string TRAdinConfigureManual
-        {
-            get
-            {
+        internal static string TRAdinConfigureManual {
+            get {
                 return ResourceManager.GetString("TRAdinConfigureManual", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to **Enable Add-in:** 
         ///1. Go to File -&gt; Excel Options -&gt; Add-ins     
@@ -278,62 +252,52 @@ namespace Steward.Localization
         ///
         ///*Once the above steps are followed* -&gt; **Did this solve the issue?**.
         /// </summary>
-        internal static string TRAdinEnable
-        {
-            get
-            {
+        internal static string TRAdinEnable {
+            get {
                 return ResourceManager.GetString("TRAdinEnable", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to **Is TR Ribbon incomplete?** *(missing buttons, #NAME? for functions)?*.
         /// </summary>
-        internal static string TRMissingMenu
-        {
-            get
-            {
+        internal static string TRMissingMenu {
+            get {
                 return ResourceManager.GetString("TRMissingMenu", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Please go ahead and **Reinstall MS Office and Eikon.**
         ///
         ///*Once you are through reinstalling*-&gt; **Did that work?**.
         /// </summary>
-        internal static string TRReInstall
-        {
-            get
-            {
+        internal static string TRReInstall {
+            get {
                 return ResourceManager.GetString("TRReInstall", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Run **&quot;Repair&quot;** for MS Office via Control Panel.
         /// 
         ///*Once repair is done* -&gt; tell us if that worked?.
         /// </summary>
-        internal static string TRRepair
-        {
-            get
-            {
+        internal static string TRRepair {
+            get {
                 return ResourceManager.GetString("TRRepair", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Does **&quot;Thomson Reuters&quot;** tab appear in the menu bar?.
         /// </summary>
-        internal static string TRTabAppear
-        {
-            get
-            {
+        internal static string TRTabAppear {
+            get {
                 return ResourceManager.GetString("TRTabAppear", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to #Please contact Technical Support and do remember to have following list handy: 
         ///
@@ -349,10 +313,8 @@ namespace Steward.Localization
         ///4. Screenshot of issue 
         ///5. VDO recording (optional).
         /// </summary>
-        internal static string TRTechSupportMandatory
-        {
-            get
-            {
+        internal static string TRTechSupportMandatory {
+            get {
                 return ResourceManager.GetString("TRTechSupportMandatory", resourceCulture);
             }
         }

@@ -198,14 +198,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\MessageHelper.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ai\QnAMaker.cs" />
-    <Compile Include="Ai\StewardluisGuide.cs" />
-    <Compile Include="Localization\Strings-EN.Designer.cs">
+    <Compile Include="Localization\Strings-EN1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings-EN.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ai\QnAMaker.cs" />
+    <Compile Include="Ai\StewardluisGuide.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

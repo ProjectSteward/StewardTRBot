@@ -75,6 +75,14 @@ namespace Steward.Ai
             context.Wait(MessageReceived);
         }
 
+        [LuisIntent("Sorry")]
+        public async Task SorryResponse(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync(Strings_EN.SorryMessage);
+            await context.PostAsync(Strings_EN.AskForFeedbackMessage);
+            context.Wait(MessageReceived);
+        }
+
         //Will run when no intent is triggered
         [LuisIntent("Help")]
         public async Task AskHelpResponse(IDialogContext context, LuisResult result)
@@ -90,105 +98,7 @@ namespace Steward.Ai
         {
             await ComplexCaseDialogP1.StartAsync(context);
         }
-
-        //#region prompt dialog region test
-        //private async Task complexDialogResumeAfter(IDialogContext context, IAwaitable<string> result)
-        //{
-        //    try
-        //    {
-        //        string text = await result;
-
-        //        await context.PostAsync(text);
-
-        //    }
-        //    catch (TooManyAttemptsException)
-        //    {
-        //        await context.PostAsync("I'm sorry, I'm having issues understanding you. Let's try again.");
-        //    }
-        //    finally
-        //    {
-        //        // await this.SendWelcomeMessageAsync(context);
-        //    }
-        //    context.Wait(MessageReceived);
-        //}
-        //public async Task AfterConfirming_TRaddinAppear(IDialogContext context, IAwaitable<bool> confirmation)
-        //{
-        //    if (await confirmation)
-        //    {
-        //        PromptDialog.Confirm(context, AfterConfirming_TRaddinIncomplete, "Is TR incomplete missing buttons?", promptStyle: PromptStyle.Auto);
-        //    }
-        //    else
-        //    {
-        //        PromptDialog.Confirm(context, AfterConfirming_TRaddinDisabledDeactivated, Strings_EN.TRAddInDisabledInactive, promptStyle: PromptStyle.Auto);
-        //    }
-        //}
-        //public async Task AfterConfirming_TRaddinIncomplete(IDialogContext context, IAwaitable<bool> confirmation)
-        //{
-        //    if (await confirmation)
-        //    {
-        //        PromptDialog.Confirm(context, AfterConfirming_OfficeRepair, Strings_EN.TRRepair, promptStyle: PromptStyle.Auto);
-        //    }
-        //    else
-        //    {
-        //        await context.PostAsync(Strings_EN.ThanksMessage);
-        //    }
-        //}
-        //public async Task AfterConfirming_OfficeRepair(IDialogContext context, IAwaitable<bool> confirmation)
-        //{
-        //    if (await confirmation)
-        //    {
-        //        await context.PostAsync(Strings_EN.ThanksMessage);
-
-        //    }
-        //    else
-        //    {
-        //        //await context.PostAsync($"Let me think what to do with you next!");
-        //        PromptDialog.Confirm(context, AfterConfirming_Nothingworks, "Reinstall MS Office and Eikon. Did that worked?", promptStyle: PromptStyle.Auto);
-        //    }
-        //}
-
-        //public async Task AfterConfirming_TRaddinDisabledDeactivated(IDialogContext context, IAwaitable<bool> confirmation)
-        //{
-        //    if (await confirmation)
-        //    {
-        //        PromptDialog.Confirm(context, AfterConfirming_AddInConfigProb, Strings_EN.TRAdinEnable, promptStyle: PromptStyle.Auto);
-        //    }
-        //    else
-        //    {
-        //        PromptDialog.Confirm(context, AfterConfirming_AddInConfigProb, Strings_EN.TRAdinConfigureManual, promptStyle: PromptStyle.Auto);
-        //    }
-
-        //}
-        //public async Task AfterConfirming_AddInConfigProb(IDialogContext context, IAwaitable<bool> confirmation)
-        //{
-        //    if (await confirmation)
-        //    {
-
-        //        await context.PostAsync(Strings_EN.ThanksMessage);
-        //        context.Wait(MessageReceived);
-        //    }
-        //    else
-        //    {
-        //        PromptDialog.Confirm(context, AfterConfirming_Nothingworks, Strings_EN.TRAddinUAC, promptStyle: PromptStyle.Auto);
-        //    }
-
-        //}
-        //public async Task AfterConfirming_Nothingworks(IDialogContext context, IAwaitable<bool> confirmation)
-        //{
-        //    if (await confirmation)
-        //    {
-
-        //        await context.PostAsync(Strings_EN.ThanksMessage);
-        //    }
-        //    else
-        //    {
-        //        await context.PostAsync(Strings_EN.TRTechSupportMandatory);
-        //    }
-        //    context.Wait(MessageReceived);
-        //}
-        //#endregion
-
-
+        
         [LuisIntent("None")]
         public async Task NoIntent(IDialogContext context, LuisResult result)
         {
