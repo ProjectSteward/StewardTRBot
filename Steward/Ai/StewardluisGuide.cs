@@ -128,8 +128,6 @@ namespace Steward.Ai
                     // TODO Add to tracing system
                     // props.Add("FoundInKB", "false");
                 }
-
-                await context.PostAsync(Strings_EN.AskForFeedbackMessage);
             }
             catch (Exception ex)
             {
@@ -139,6 +137,7 @@ namespace Steward.Ai
             }
             finally
             {
+                await context.PostAsync(Strings_EN.AskForFeedbackMessage);
                 context.Wait(MessageReceived);
             }
         }
