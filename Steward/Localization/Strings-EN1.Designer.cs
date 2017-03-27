@@ -70,7 +70,7 @@ namespace Steward.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you would like to **rate** us, please type **Feedback** then follow with your feedback
+        ///   Looks up a localized string similar to If you would like to give us the feedback, please type **Feedback** then follow with your feedback
         ///
         ///Remember you can always ask me new queries at any time..
         /// </summary>

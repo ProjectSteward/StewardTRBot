@@ -18,10 +18,14 @@ namespace Steward.Ai
             var message = await item;
             var handledFeedback = false;
             if (!string.IsNullOrEmpty(message.Text) && message.Text.StartsWith("feedback", StringComparison.OrdinalIgnoreCase))
-                handledFeedback = HandleFeedbackWorkflow(context, message.Text);
-            
-            if (!handledFeedback)
-                await base.MessageReceived(context, item);
+            {
+                //handledFeedback = HandleFeedbackWorkflow(context, message.Text);
+                //handledFeedback = false;
+                await context.PostAsync(Strings_EN.AfterRating);
+            }
+
+            //if (!handledFeedback)
+            await base.MessageReceived(context, item);
         }
 
         [LuisIntent("")]

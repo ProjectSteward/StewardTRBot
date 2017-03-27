@@ -241,7 +241,7 @@ Unchecked Privilege Level:
 5. VDO recording (optional)</value>
   </data>
   <data name="AskForFeedbackMessage" xml:space="preserve">
-    <value>If you would like to **rate** us, please type **Feedback** then follow with your feedback
+    <value>If you would like to give us the feedback, please type **Feedback** then follow with your feedback
 
 Remember you can always ask me new queries at any time.</value>
   </data>
