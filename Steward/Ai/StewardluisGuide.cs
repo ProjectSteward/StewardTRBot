@@ -22,6 +22,8 @@ namespace Steward.Ai
                 //handledFeedback = HandleFeedbackWorkflow(context, message.Text);
                 //handledFeedback = false;
                 await context.PostAsync(Strings_EN.AfterRating);
+                context.Wait(MessageReceived);
+                return;
             }
 
             //if (!handledFeedback)
