@@ -252,4 +252,7 @@ Please type **Feedback** then follow with your feedback. Thank you!
 
 Remember you can always ask me new queries at any time.</value>
   </data>
+  <data name="NotUnderstandMessage" xml:space="preserve">
+    <value>I'm sorry but I don't understand your query. Please try using direct question. you can see example here https://thehub.thomsonreuters.com/docs/DOC-2145793 </value>
+  </data>
 </root>

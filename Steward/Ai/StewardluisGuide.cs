@@ -87,6 +87,13 @@ namespace Steward.Ai
             context.Wait(MessageReceived);
         }
 
+        [LuisIntent("NotUnderstand")]
+        public async Task NotUnderstand(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync(Strings_EN.NotUnderstandMessage);
+            context.Wait(MessageReceived);
+        }
+
         //Will run when no intent is triggered
         [LuisIntent("Help")]
         public async Task AskHelpResponse(IDialogContext context, LuisResult result)

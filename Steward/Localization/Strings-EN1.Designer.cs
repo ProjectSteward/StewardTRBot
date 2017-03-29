@@ -161,6 +161,15 @@ namespace Steward.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I&apos;m sorry but I don&apos;t understand your query. Please try using direct question. you can see example here https://thehub.thomsonreuters.com/docs/DOC-2145793 .
+        /// </summary>
+        internal static string NotUnderstandMessage {
+            get {
+                return ResourceManager.GetString("NotUnderstandMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to # Thanks for your feedback. 
         ///
         ///Please rate this service between 1 to 5, 1 being unsatisfactory, 5 being excellent.
