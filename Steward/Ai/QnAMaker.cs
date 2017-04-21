@@ -11,8 +11,8 @@ namespace Steward.Ai
     public class QnaMakerKb
     {
         private readonly Uri _qnaBaseUri = new Uri("https://westus.api.cognitive.microsoft.com/qnamaker/v1.0");
-        private readonly string _kbId = ConfigurationManager.AppSettings["QnaKnowledgeBaseId"];
-        private readonly string _subscriptionKey = ConfigurationManager.AppSettings["QnaSubscriptionKey"];
+        private readonly string _kbId = ConfigurationManager.AppSettings["QnAMaker.KnowledgeBaseId"];
+        private readonly string _subscriptionKey = ConfigurationManager.AppSettings["QnAMaker.SubscriptionKey"];
 
         // Sample HTTP Request:
         // POST /knowledgebases/{KbId}/generateAnswer

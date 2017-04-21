@@ -190,6 +190,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ai\ComplexluisGuide.cs" />
+    <Compile Include="Ai\Microsoft.QnAMaker\IQnAMakerService.cs" />
+    <Compile Include="Ai\Microsoft.QnAMaker\QnAMakerResult.cs" />
+    <Compile Include="Ai\Microsoft.QnAMaker\QnAMakerService.cs" />
+    <Compile Include="Ai\StewardWatsonGuide.cs" />
+    <Compile Include="Ai\Watson.Conversation\IWatsonConversationService.cs" />
+    <Compile Include="Ai\Watson.Conversation\WatsonConverationService.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\ComplexCaseDialogP1.cs" />
@@ -197,7 +203,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\IWebClient.cs" />
     <Compile Include="Helper\MessageHelper.cs" />
+    <Compile Include="Helper\WebClient.cs" />
     <Compile Include="Localization\Strings-EN1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
