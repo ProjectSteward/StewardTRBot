@@ -194,7 +194,13 @@
     <Compile Include="Ai\Microsoft.QnAMaker\QnAMakerResult.cs" />
     <Compile Include="Ai\Microsoft.QnAMaker\QnAMakerService.cs" />
     <Compile Include="Ai\StewardWatsonGuide.cs" />
+    <Compile Include="Ai\Watson.Conversation\Model\EntityResponse.cs" />
+    <Compile Include="Ai\Watson.Conversation\Model\Intent.cs" />
     <Compile Include="Ai\Watson.Conversation\IWatsonConversationService.cs" />
+    <Compile Include="Ai\Watson.Conversation\Model\LogMessageResponse.cs" />
+    <Compile Include="Ai\Watson.Conversation\Model\MessageRequest.cs" />
+    <Compile Include="Ai\Watson.Conversation\Model\MessageResponse.cs" />
+    <Compile Include="Ai\Watson.Conversation\Model\OutputData.cs" />
     <Compile Include="Ai\Watson.Conversation\WatsonConverationService.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />

@@ -2,8 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Steward.Ai.Microsoft.QnAMaker;
 using Steward.Ai.Watson.Conversation;
 using Steward.Localization;
@@ -45,31 +43,29 @@ namespace Steward.Ai
         {
             try
             {
-                string watsonContext;
+                dynamic watsonContext;
                 if (!dialogContext.PrivateConversationData.TryGetValue(WatsonContextName, out watsonContext))
                 {
-                    watsonContext = string.Empty;
+                    watsonContext = null;
                 }
 
                 var responseMessage = await conversationService.SendMessage(message, watsonContext);
-
-                var responseMessageObject = JObject.Parse(responseMessage);
-                var contextObject = responseMessageObject["context"];
-                var canBeHandled = contextObject["can_not_be_handled"];
+                var contextObject = responseMessage.Context;
+                var canBeHandled = responseMessage.Context.can_not_be_handled;
 
                 var handledByWatson = !(canBeHandled != null && Convert.ToBoolean(canBeHandled));
 
-                if(handledByWatson)
+                if (!handledByWatson) return handledByWatson;
+
+                dialogContext.PrivateConversationData.SetValue(WatsonContextName, contextObject);
+
+                var listOfResponse = responseMessage.Output.text;
+                foreach (var text in listOfResponse)
                 {
-                    var toBePersistedContext = JsonConvert.SerializeObject(contextObject);
-                    dialogContext.PrivateConversationData.SetValue(WatsonContextName, toBePersistedContext);
-                    var listOfResponse = responseMessageObject["output"]["text"];
-                    foreach (var text in listOfResponse)
-                    {
-                        var replyMessage = text.ToString();
-                        if (string.IsNullOrWhiteSpace(replyMessage)) continue;
-                    await dialogContext.PostAsync(replyMessage);
-                    }
+                    var replyMessage = text.ToString();
+                    if (string.IsNullOrWhiteSpace(replyMessage)) continue;
+
+                    await PostAsync(dialogContext, replyMessage);
                 }
 
                 return handledByWatson;
@@ -77,8 +73,8 @@ namespace Steward.Ai
             catch (Exception)
             {
                 // We may need some response here to tell the user that we failed to talk with Watson.
-                await dialogContext.PostAsync("Sorry! There is something wrong at the moment!");
-                await dialogContext.PostAsync("Please try again later!!!!");
+                await PostAsync(dialogContext, "Sorry! There is something wrong at the moment!");
+                await PostAsync(dialogContext, "Please try again later!!!!");
 
                 return true;
             }
@@ -113,6 +109,11 @@ namespace Steward.Ai
                 await context.PostAsync(Strings_EN.AskForFeedbackMessage);
                 context.Wait(MessageReceivedAsync);
             }
+        }
+
+        protected virtual async Task PostAsync(IDialogContext context, string message)
+        {
+            await context.PostAsync(message);
         }
     }
 }

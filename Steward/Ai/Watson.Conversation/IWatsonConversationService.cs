@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Steward.Ai.Watson.Conversation.Model;
 
 namespace Steward.Ai.Watson.Conversation
 {
     internal interface IWatsonConversationService
     {
-        Task<string> SendMessage(string message, string context = "");
+        Task<MessageResponse> SendMessage(string message, dynamic context = null);
     }
 }

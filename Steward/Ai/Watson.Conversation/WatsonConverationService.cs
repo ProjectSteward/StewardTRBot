@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Dynamic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Steward.Ai.Watson.Conversation.Model;
 using Steward.Helper;
 
 namespace Steward.Ai.Watson.Conversation
@@ -18,19 +19,31 @@ namespace Steward.Ai.Watson.Conversation
             this.endpoint = new UriBuilder(endpoint).Uri;
         }
 
-        async Task<string> IWatsonConversationService.SendMessage(string message, string context)
+        async Task<MessageResponse> IWatsonConversationService.SendMessage(string message, dynamic context)
         {
             using (var client = CreateWebClient())
             {
-                if (string.IsNullOrWhiteSpace(context))
+                dynamic inputContext = context;
+
+                dynamic messageObj = new ExpandoObject();
+
+                messageObj.input = new ExpandoObject();
+                messageObj.input.text = string.Empty;
+
+                if (inputContext == null)
                 {
                     // Try to send the first conversation
-                    var welcomeMessage = JObject.Parse(await UploadStringTaskAsync(client, "{ \"input\" : { \"text\" : \"\" } }"));
-                    context = JsonConvert.SerializeObject(welcomeMessage["context"]);
+                    var welcomeMessage =
+                        JsonConvert.DeserializeObject<MessageResponse>(
+                            await UploadStringTaskAsync(client, JsonConvert.SerializeObject(messageObj)));
+                    inputContext = welcomeMessage.Context;
                 }
 
-                var responseMessage = await UploadStringTaskAsync(client, "{ \"input\" : { \"text\" : \"" + message +"\" }, \"context\" : "+ context + " }");
-                return responseMessage;
+                messageObj.input.text = message;
+                messageObj.context = inputContext;
+
+                var responseMessage = await UploadStringTaskAsync(client, JsonConvert.SerializeObject(messageObj));
+                return JsonConvert.DeserializeObject<MessageResponse>(responseMessage);
             }
         }
 
