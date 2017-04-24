@@ -30,6 +30,13 @@ namespace Steward.Ai
         {
             var message = await argument;
 
+            if (IsAFeedback(message.Text))
+            {
+                await PostAsync(context, Strings_EN.AfterRating);
+                context.Wait(MessageReceivedAsync);
+                return;
+            }
+
             if (!await IsMessageHandledByWatson(context, message.Text))
             {
                 await SearchInQnAMarker(context, message.Text);
@@ -37,6 +44,12 @@ namespace Steward.Ai
             }
 
             context.Wait(MessageReceivedAsync);
+        }
+
+
+        protected virtual bool IsAFeedback(string message)
+        {
+            return !string.IsNullOrEmpty(message) && message.StartsWith("feedback", StringComparison.OrdinalIgnoreCase);
         }
 
         protected virtual async Task<bool> IsMessageHandledByWatson(IDialogContext dialogContext, string message)
