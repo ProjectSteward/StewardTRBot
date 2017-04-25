@@ -1,17 +1,12 @@
-﻿using System.Net.Http;
+﻿using System.Configuration;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Steward.Ai;
-using Microsoft.Bot.Builder.Azure;
-using Autofac;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.Bot.Builder.History;
-using Microsoft.Azure;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.FormFlow;
-using Steward.Dialogs;
+using Steward.Ai.Microsoft.QnAMaker;
+using Steward.Ai.Watson.Conversation;
 
 namespace Steward.Controllers
 {
@@ -23,8 +18,15 @@ namespace Steward.Controllers
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                
-               await Conversation.SendAsync(activity, () => new StewardluisGuide());
+                var watsonEndpoint = ConfigurationManager.AppSettings["Watson.Endpoint"];
+                var watsonCredential = ConfigurationManager.AppSettings["Watson.Credential"];
+
+                var qnaMakerEndpoint = ConfigurationManager.AppSettings["QnAMaker.Endpoint"];
+                var qnaMakerKbId = ConfigurationManager.AppSettings["QnAMaker.KnowledgeBaseId"];
+                var qnaMakerSubscriptionKey = ConfigurationManager.AppSettings["QnAMaker.SubscriptionKey"];
+
+                await Conversation.SendAsync(activity, () => new StewardWatsonGuide(  new WatsonConverationService(watsonEndpoint, watsonCredential)
+                                                                                    , new QnAMakerService(qnaMakerEndpoint, qnaMakerKbId, qnaMakerSubscriptionKey)));
 
             }
             else
@@ -61,55 +63,5 @@ namespace Steward.Controllers
 
             return null;
         }
-        //This was used for a form builder case study in steward
-        private static IForm<TRAddIn> BuildForm()
-        {
-            var builder = new FormBuilder<TRAddIn>();
-
-            //ActiveDelegate<TRAddIn> isBYO = (pizza) => pizza. == PizzaOptions.BYOPizza;
-            //ActiveDelegate<TRAddIn> isSignature = (pizza) => pizza.Kind == PizzaOptions.SignaturePizza;
-            //ActiveDelegate<TRAddIn> isGourmet = (pizza) => pizza.Kind == PizzaOptions.GourmetDelitePizza;
-            //ActiveDelegate<TRAddIn> isStuffed = (pizza) => pizza.Kind == PizzaOptions.StuffedPizza;
-
-            return builder
-                // .Field(nameof(PizzaOrder.Choice))
-                .Field(nameof(TRAddIn.mainQ))
-                .Field(nameof(TRAddIn.disabled))
-                .Field(nameof(TRAddIn.inactive))
-                .Field(nameof(TRAddIn.UACPoppup))
-                .Field(nameof(TRAddIn.RibbonInComplete))
-                .AddRemainingFields()
-                .Confirm("Is the TR Showing up at all?")
-                .Confirm("check if the TR addIn is disabled?")
-                .Confirm("Check if the TR AddIn in Inactive?")
-                .Confirm("Is the UAC Poppup happening?")
-                .Confirm("Is the Ribbon Complete?")
-                .Build()
-                ;
-        }
-        //internal static IDialog<TRAddIn> MakeRoot()
-        //{
-        //  //  return Chain.From(() => new ComplexluisGuide(BuildForm));
-        //}
-        //static MessagesController()
-        //{
-        //    try
-        //    {
-        //        var builder = new ContainerBuilder();
-        //        var store = new TableBotDataStore(CloudStorageAccount.Parse(
-        //        CloudConfigurationManager.GetSetting("logtableconnectionstring")));
-        //        builder.Register(c => store)
-        //            .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
-        //            .AsSelf()
-        //            .SingleInstance();
-        //    }
-        //    catch (System.Exception ex)
-        //    {
-
-        //        throw;
-        //    }
-
-        //    //await logger.LogAsync(activity);
-        //}
     }
 }
