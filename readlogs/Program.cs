@@ -31,7 +31,7 @@ namespace readlogs
                 Console.WriteLine($"Exception - {ex.Message}");
             }
 
-            var qq = BuildQuery(null, null, new DateTime(2017, 04, 01)); // get conversation since date
+            var qq = BuildQuery(null, null, new DateTime(2017, 04, 20)); // get conversation since date
             do
             {
                 var queryResult = table.ExecuteQuerySegmented(qq, (pKey, rowKey, timestamp, properties, etag) =>
