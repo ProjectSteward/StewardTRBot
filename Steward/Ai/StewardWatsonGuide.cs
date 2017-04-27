@@ -102,24 +102,25 @@ namespace Steward.Ai
 
                 if (searchResult != null && searchResult.Score > 1.0)
                 {
-                    await context.PostAsync(searchResult.Answer);
-                    await context.PostAsync("Confidence Level: " + searchResult.Score + "%");
+                    await PostAsync(context, searchResult.Answer);
+                    await PostAsync(context, "Confidence Level: " + searchResult.Score + "%");
                 }
                 else
                 {
-                    await context.PostAsync(Strings_EN.NotFoundInKb);
-                    await context.PostAsync("Confidence Level: 0%");
+                    await PostAsync(context, Strings_EN.NotFoundInKb);
+                    await PostAsync(context, "Confidence Level: 0%");
                 }
             }
             catch (Exception)
             {
                 // TODO: Log Error
-                await context.PostAsync(Strings_EN.NotFoundInKb);
-                await context.PostAsync("Confidence Level: 0%");
+                await PostAsync(context, Strings_EN.NotFoundInKb);
+                await PostAsync(context, "Confidence Level: 0%");
             }
             finally
             {
-                await context.PostAsync(Strings_EN.AskForFeedbackMessage);
+                await PostAsync(context, Strings_EN.AskForFeedbackMessage);
+
                 context.Wait(MessageReceivedAsync);
             }
         }
