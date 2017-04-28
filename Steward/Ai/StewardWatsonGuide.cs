@@ -89,7 +89,19 @@ namespace Steward.Ai
                 var userId = dialogContext.Activity.From.Id;
                 if (!string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongpipat"))
                 {
+                    dynamic watsonContext;
+                    if (!dialogContext.PrivateConversationData.TryGetValue(WatsonContextName, out watsonContext))
+                    {
+                        watsonContext = null;
+                    }
+
+                    if (watsonContext != null)
+                    {
+                        await PostAsync(dialogContext, "The current context value is " + watsonContext.ToString());
+                    }
+
                     await PostAsync(dialogContext, exception.Message);
+                    await PostAsync(dialogContext, exception.StackTrace);
                 }
 
                 await PostAsync(dialogContext, "Sorry! could you please try again.");
