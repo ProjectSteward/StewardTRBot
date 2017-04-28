@@ -28,17 +28,6 @@ namespace Steward.Ai.Watson.Conversation
                 dynamic messageObj = new ExpandoObject();
 
                 messageObj.input = new ExpandoObject();
-                messageObj.input.text = string.Empty;
-
-                if (inputContext == null)
-                {
-                    // Try to send the first conversation
-                    var welcomeMessage =
-                        JsonConvert.DeserializeObject<MessageResponse>(
-                            await UploadStringTaskAsync(client, JsonConvert.SerializeObject(messageObj)));
-                    inputContext = welcomeMessage.Context;
-                }
-
                 messageObj.input.text = message;
                 messageObj.context = inputContext;
 
