@@ -14,8 +14,6 @@ namespace Steward.Ai
         private readonly IWatsonConversationService conversationService;
         private readonly IQnAMakerService qnAMakerService;
         private const string WatsonContextName = "WATSON.CONTEXT";
-        private const string SessionInformation = "CONVERSATION.SESSIONINFOMATION";
-
 
         internal StewardWatsonGuide(IWatsonConversationService conversationService, IQnAMakerService qnAMakerService)
         {
@@ -58,38 +56,11 @@ namespace Steward.Ai
         {
             try
             {
-
-                var userId = dialogContext.Activity.From.Id;
-
                 dynamic watsonContext;
                 if (!dialogContext.PrivateConversationData.TryGetValue(WatsonContextName, out watsonContext))
                 {
                     watsonContext = null;
                 }
-                else
-                {
-                    if (!string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongpipat"))
-                    {
-                        var sessionInformation = string.Empty;
-                        if (dialogContext.PrivateConversationData.TryGetValue(SessionInformation, out sessionInformation))
-                        {
-                            var expectedSessionInformation = string.Format("{0} {1} {2}", dialogContext.Activity.ChannelId, dialogContext.Activity.Conversation.Id, dialogContext.Activity.From.Id);
-
-                            await PostAsync(dialogContext, "expected " + expectedSessionInformation);
-
-                            await PostAsync(dialogContext, "In PrivateConversationData " + sessionInformation);
-                        }
-                    }
-                }
-
-                if (!string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongpipat"))
-                {
-                    if (watsonContext != null)
-                    {
-                        await PostAsync(dialogContext, watsonContext.ToString());
-                    }
-                }
-
 
                 var responseMessage = await conversationService.SendMessage(message, watsonContext);
                 var contextObject = responseMessage.Context;
@@ -100,7 +71,6 @@ namespace Steward.Ai
                 if (!handledByWatson) return handledByWatson;
 
                 dialogContext.PrivateConversationData.SetValue(WatsonContextName, contextObject);
-                dialogContext.PrivateConversationData.SetValue(SessionInformation, string.Format("{0} {1} {2}", dialogContext.Activity.ChannelId, dialogContext.Activity.Conversation.Id, dialogContext.Activity.From.Id));
 
                 var listOfResponse = responseMessage.Output.text;
                 foreach (var text in listOfResponse)
@@ -113,17 +83,10 @@ namespace Steward.Ai
 
                 return handledByWatson;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 // We may need some response here to tell the user that we failed to talk with Watson.
-                var userId = dialogContext.Activity.From.Id;
-                if (!string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongpipat"))
-                {
-                    await PostAsync(dialogContext, exception.Message);
-                    await PostAsync(dialogContext, exception.StackTrace);
-                }
-
-                await PostAsync(dialogContext, "Sorry! could you please try again.");
+                await PostAsync(dialogContext, "Sorry! could you please try again?");
 
                 return true;
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +31,7 @@ namespace Steward.Controllers
         }
 
         // ReSharper disable once UnusedMethodReturnValue.Local
-        private async Task<Activity> HandleSystemMessage(Activity activity)
+        private async Task<Activity> HandleSystemMessage(IActivity activity)
         {
             switch (activity.Type)
             {
@@ -44,14 +43,6 @@ namespace Steward.Controllers
                     // Handle conversation state changes, like members being added and removed
                     // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                     // Not available in all channels
-                    var userId = activity.From.Id;
-                    if (!string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongpipat"))
-                    {
-                        var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
-                        var reply = activity.CreateReply();
-                        reply.Text = "ConversationUpdate evnet received";
-                        await client.Conversations.ReplyToActivityAsync(reply);
-                    }
                     break;
 
                 case ActivityTypes.EndOfConversation:
