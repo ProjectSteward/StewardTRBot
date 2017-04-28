@@ -56,21 +56,55 @@ namespace Steward.Ai
         {
             try
             {
+                var userId = dialogContext.Activity.From.Id;
+                var isForDebugging = !string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongpipat");
+
+                if (isForDebugging)
+                {
+                    await PostAsync(dialogContext, "Before trying to read data.");
+                }
+
                 dynamic watsonContext;
                 if (!dialogContext.PrivateConversationData.TryGetValue(WatsonContextName, out watsonContext))
                 {
                     watsonContext = null;
                 }
 
+                if (isForDebugging && watsonContext != null)
+                {
+                    await PostAsync(dialogContext, watsonContext.ToString());
+                }
+
                 var responseMessage = await conversationService.SendMessage(message, watsonContext);
+
+                if (isForDebugging)
+                {
+                    await PostAsync(dialogContext, responseMessage.ToString());
+                }
+
                 var contextObject = responseMessage.Context;
                 var canBeHandled = responseMessage.Context.can_not_be_handled;
+
+                if (isForDebugging)
+                {
+                    await PostAsync(dialogContext, "Before creating handledByWatson");
+                }
 
                 var handledByWatson = !(canBeHandled != null && Convert.ToBoolean(canBeHandled));
 
                 if (!handledByWatson) return handledByWatson;
 
+                if (isForDebugging)
+                {
+                    await PostAsync(dialogContext, "Before putting data into privateConversationData");
+                }
+
                 dialogContext.PrivateConversationData.SetValue(WatsonContextName, contextObject);
+
+                if (isForDebugging)
+                {
+                    await PostAsync(dialogContext, "Before replying messages.");
+                }
 
                 var listOfResponse = responseMessage.Output.text;
                 foreach (var text in listOfResponse)
@@ -83,7 +117,7 @@ namespace Steward.Ai
 
                 return handledByWatson;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 // We may need some response here to tell the user that we failed to talk with Watson.
                 await PostAsync(dialogContext, "Sorry! could you please try again?");
