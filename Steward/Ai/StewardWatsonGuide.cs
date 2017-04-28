@@ -14,6 +14,8 @@ namespace Steward.Ai
         private readonly IWatsonConversationService conversationService;
         private readonly IQnAMakerService qnAMakerService;
         private const string WatsonContextName = "WATSON.CONTEXT";
+        private const string SessionInformation = "CONVERSATION.SESSIONINFOMATION";
+
 
         internal StewardWatsonGuide(IWatsonConversationService conversationService, IQnAMakerService qnAMakerService)
         {
@@ -56,18 +58,35 @@ namespace Steward.Ai
         {
             try
             {
+
+                var userId = dialogContext.Activity.From.Id;
+
                 dynamic watsonContext;
                 if (!dialogContext.PrivateConversationData.TryGetValue(WatsonContextName, out watsonContext))
                 {
                     watsonContext = null;
                 }
+                else
+                {
+                    if (!string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongpipat"))
+                    {
+                        var sessionInformation = string.Empty;
+                        if (dialogContext.PrivateConversationData.TryGetValue(SessionInformation, out sessionInformation))
+                        {
+                            var expectedSessionInformation = string.Format("{0} {1} {2}", dialogContext.Activity.ChannelId, dialogContext.Activity.Conversation.Id, dialogContext.Activity.From.Id);
 
-                var userId = dialogContext.Activity.From.Id;
+                            await PostAsync(dialogContext, "expected " + expectedSessionInformation);
+
+                            await PostAsync(dialogContext, "In PrivateConversationData " + sessionInformation);
+                        }
+                    }
+                }
+
                 if (!string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongpipat"))
                 {
                     if (watsonContext != null)
                     {
-                        await PostAsync(dialogContext, watsonContext);
+                        await PostAsync(dialogContext, watsonContext.ToString());
                     }
                 }
 
@@ -81,6 +100,7 @@ namespace Steward.Ai
                 if (!handledByWatson) return handledByWatson;
 
                 dialogContext.PrivateConversationData.SetValue(WatsonContextName, contextObject);
+                dialogContext.PrivateConversationData.SetValue(SessionInformation, string.Format("{0} {1} {2}", dialogContext.Activity.ChannelId, dialogContext.Activity.Conversation.Id, dialogContext.Activity.From.Id));
 
                 var listOfResponse = responseMessage.Output.text;
                 foreach (var text in listOfResponse)

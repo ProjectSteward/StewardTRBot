@@ -45,7 +45,7 @@ namespace Steward.Controllers
                     // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                     // Not available in all channels
                     var userId = activity.From.Id;
-                    if (!string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongppat"))
+                    if (!string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongpipat"))
                     {
                         var client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
                         var reply = activity.CreateReply();
