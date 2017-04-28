@@ -83,11 +83,16 @@ namespace Steward.Ai
 
                 return handledByWatson;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 // We may need some response here to tell the user that we failed to talk with Watson.
-                await PostAsync(dialogContext, "Sorry! There is something wrong at the moment!");
-                await PostAsync(dialogContext, "Please try again later!!!!");
+                var userId = dialogContext.Activity.From.Id;
+                if (!string.IsNullOrWhiteSpace(userId) && userId.ToLower().Contains("thongpipat"))
+                {
+                    await PostAsync(dialogContext, exception.Message);
+                }
+
+                await PostAsync(dialogContext, "Sorry! could you please try again.");
 
                 return true;
             }
