@@ -62,11 +62,7 @@ namespace Steward.Ai
                     watsonContext = null;
                 }
 
-                var isInDebugMode = !string.IsNullOrWhiteSpace(dialogContext.Activity.From.Id) &&
-                                    dialogContext.Activity.From.Id.ToLower().Contains("thongpipat");
-
-                var responseMessage = isInDebugMode ? await conversationService.SendMessage(message, watsonContext, dialogContext) : await conversationService.SendMessage(message, watsonContext);
-
+                var responseMessage = await conversationService.SendMessage(message, watsonContext);
 
                 var contextObject = responseMessage.Context;
                 var canBeHandled = responseMessage.Context.can_not_be_handled;

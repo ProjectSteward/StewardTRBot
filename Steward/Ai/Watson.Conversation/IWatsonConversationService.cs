@@ -7,7 +7,5 @@ namespace Steward.Ai.Watson.Conversation
     internal interface IWatsonConversationService
     {
         Task<MessageResponse> SendMessage(string message, dynamic context = null);
-
-        Task<MessageResponse> SendMessage(string message, dynamic context , IDialogContext dialogContext);
     }
 }
