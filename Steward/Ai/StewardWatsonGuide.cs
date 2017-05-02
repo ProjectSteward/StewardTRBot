@@ -64,6 +64,11 @@ namespace Steward.Ai
 
                 var responseMessage = await conversationService.SendMessage(message, watsonContext);
 
+                if (responseMessage == null)
+                {
+                    return false;
+                }
+
                 var contextObject = responseMessage.Context;
                 var canBeHandled = responseMessage.Context.can_not_be_handled;
 
@@ -96,10 +101,7 @@ namespace Steward.Ai
             }
             catch (Exception)
             {
-                // We may need some response here to tell the user that we failed to talk with Watson.
-                await PostAsync(dialogContext, "Sorry! could you please try again?");
-
-                return true;
+                return false;
             }
         }
 
