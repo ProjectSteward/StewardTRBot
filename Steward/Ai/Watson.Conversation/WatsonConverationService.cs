@@ -23,6 +23,9 @@ namespace Steward.Ai.Watson.Conversation
         {
             using (var client = CreateWebClient())
             {
+                client.Headers.Add("Content-Type", "application/json");
+                client.Headers.Add("Authorization", $"Basic {credential}");
+
                 dynamic inputContext = context;
 
                 dynamic messageObj = new ExpandoObject();
@@ -31,28 +34,9 @@ namespace Steward.Ai.Watson.Conversation
                 messageObj.input.text = message;
                 messageObj.context = inputContext;
 
-                var responseMessage = await UploadStringTaskAsync(client, JsonConvert.SerializeObject(messageObj));
+                var responseMessage = await client.UploadStringTaskAsync(endpoint, JsonConvert.SerializeObject(messageObj));
                 return JsonConvert.DeserializeObject<MessageResponse>(responseMessage);
             }
-        }
-
-        private async Task<string> UploadStringTaskAsync(IWebClient client, string data)
-        {
-            var headers = client.Headers;
-
-            const string contentType = "Content-Type";
-            if(headers[contentType] == null)
-            { 
-                headers.Add(contentType, "application/json");
-            }
-
-            const string authorization = "Authorization";
-            if (headers[authorization] == null)
-            {
-                client.Headers.Add(authorization, $"Basic {credential}");
-            }
-
-            return await client.UploadStringTaskAsync(endpoint, data);
         }
 
         protected virtual IWebClient CreateWebClient()
