@@ -66,11 +66,21 @@ namespace Steward.Ai
                 var contextObject = responseMessage.Context;
                 var canBeHandled = responseMessage.Context.can_not_be_handled;
 
+                var conversationIsEnded = !(responseMessage.Context.current_case != null &&
+                                            !string.IsNullOrWhiteSpace(Convert.ToString(responseMessage.Context.current_case))) ;
+
+                if (conversationIsEnded)
+                {
+                    dialogContext.PrivateConversationData.RemoveValue(WatsonContextName);
+                }
+                else
+                {
+                    dialogContext.PrivateConversationData.SetValue(WatsonContextName, contextObject);
+                }
+
                 var handledByWatson = !(canBeHandled != null && Convert.ToBoolean(canBeHandled));
 
                 if (!handledByWatson) return handledByWatson;
-
-                dialogContext.PrivateConversationData.SetValue(WatsonContextName, contextObject);
 
                 var listOfResponse = responseMessage.Output.text;
                 foreach (var text in listOfResponse)
