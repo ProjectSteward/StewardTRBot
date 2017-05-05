@@ -1,27 +1,34 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Steward.Configuration;
 using Steward.Helper;
+using Steward.Logging;
+using Steward.Service;
 
 namespace Steward.Ai.Microsoft.QnAMaker
 {
-    [Serializable]
     internal class QnAMakerService : IQnAMakerService
     {
-        private readonly string kbId;
-        private readonly string subscriptionKey;
-        private readonly string endpoint;
 
-        internal QnAMakerService(string endpoint, string kbId, string subscriptionKey)
+        private const string QnAMakerEndPoint = "QnAMaker.Endpoint";
+        private const string QnAMakerKnowledgeBaseId = "QnAMaker.KnowledgeBaseId";
+        private const string QnAMakerSubscriptionKey = "QnAMaker.SubscriptionKey";
+
+        private readonly ISettings settings;
+        private readonly ILog log;
+        
+        internal QnAMakerService(ISettings settings, ILog log)
         {
-            this.kbId = kbId;
-            this.subscriptionKey = subscriptionKey;
-            this.endpoint = endpoint;
+            this.settings = settings;
+            this.log = log;
         }
 
         async Task<QnaMakerResult> IQnAMakerService.SearchKbAsync(string question)
         {
-            string responseString;
+            var kbId = settings[QnAMakerKnowledgeBaseId];
+            var subscriptionKey = settings[QnAMakerSubscriptionKey];
+            var endpoint = settings[QnAMakerEndPoint];
 
             //Build the URI
             var uri = new UriBuilder($"{endpoint}/knowledgebases/{kbId}/generateAnswer").Uri;
@@ -31,36 +38,40 @@ namespace Steward.Ai.Microsoft.QnAMaker
                 Question = question
             });
 
+            string responseString;
+
+            log.Debug($"postBody : {postBody}");
+
             //Send the POST request
-            using (var client = CreateWebClient())
+            using (var client = ServiceResolver.Get<IWebClient>())
             {
                 client.Headers.Add("Content-Type", "application/json");
                 client.Headers.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
                 responseString = await client.UploadStringTaskAsync(uri, postBody);
             }
 
+            log.Debug($"responseString : {responseString}");
+
             var result = ConvertResponseFromJson(responseString);
             return result;
         }
 
-        private static QnaMakerResult ConvertResponseFromJson(string responseString)
+        private QnaMakerResult ConvertResponseFromJson(string responseString)
         {
             QnaMakerResult response;
             try
             {
                 response = JsonConvert.DeserializeObject<QnaMakerResult>(responseString);
             }
-            catch
+            catch(Exception exception)
             {
+                log.Error($"exception.Message : {exception.Message}");
+                log.Error($"exception.StackTrace : {exception.StackTrace}");
+
                 throw new Exception("Unable to deserialize QnA Maker response string.");
             }
 
             return response;
-        }
-
-        protected virtual IWebClient CreateWebClient()
-        {
-            return new WebClient();
         }
     }
 }

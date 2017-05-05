@@ -1,15 +1,9 @@
-﻿using System.Configuration;
-using System.Net.Http;
-using System.Threading;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using Steward.Ai;
-using Steward.Ai.Microsoft.QnAMaker;
-using Steward.Ai.Watson.Conversation;
 
 namespace Steward.Controllers
 {
@@ -20,7 +14,7 @@ namespace Steward.Controllers
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, CreateStewardWatsonGuide);
+                await HandleMessage(activity);
             }
             else
             {
@@ -31,7 +25,7 @@ namespace Steward.Controllers
         }
 
         // ReSharper disable once UnusedMethodReturnValue.Local
-        private async Task<Activity> HandleSystemMessage(IActivity activity)
+        private Task<Activity> HandleSystemMessage(IActivity activity)
         {
             switch (activity.Type)
             {
@@ -44,30 +38,9 @@ namespace Steward.Controllers
                     // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                     // Not available in all channels
                     break;
-
-                case ActivityTypes.EndOfConversation:
-                    break;
                 case ActivityTypes.ContactRelationUpdate:
                     // Handle add/remove from contact lists
                     // Activity.From + Activity.Action represent what happened
-                    var relationUpdateAction = activity.AsContactRelationUpdateActivity();
-                    if (relationUpdateAction.Action == ContactRelationUpdateActionTypes.Remove)
-                    {
-                        using (var scope = BeginLifetimeScope(activity as IMessageActivity))
-                        {
-                            var botData = scope.Resolve<IBotData>();
-                            await botData.LoadAsync(default(CancellationToken));
-
-                            botData.PrivateConversationData.Clear();
-
-                            var stack = scope.Resolve<IDialogStack>();
-                            stack.Reset();
-                            await botData.FlushAsync(default(CancellationToken));
-
-                            var stateClient = scope.Resolve<IStateClient>();
-                            stateClient.BotState.DeleteStateForUser(activity.ChannelId, activity.From.Id);
-                        }
-                    }
                     break;
                 case ActivityTypes.Typing:
                     // Handle knowing tha the user is typing
@@ -79,22 +52,10 @@ namespace Steward.Controllers
             return null;
         }
 
-        internal virtual StewardWatsonGuide CreateStewardWatsonGuide()
+        protected virtual Task HandleMessage(IMessageActivity activity)
         {
-            var watsonEndpoint = ConfigurationManager.AppSettings["Watson.Endpoint"];
-            var watsonCredential = ConfigurationManager.AppSettings["Watson.Credential"];
-
-            var qnaMakerEndpoint = ConfigurationManager.AppSettings["QnAMaker.Endpoint"];
-            var qnaMakerKbId = ConfigurationManager.AppSettings["QnAMaker.KnowledgeBaseId"];
-            var qnaMakerSubscriptionKey = ConfigurationManager.AppSettings["QnAMaker.SubscriptionKey"];
-
-            return new StewardWatsonGuide(new WatsonConverationService(watsonEndpoint, watsonCredential)
-                , new QnAMakerService(qnaMakerEndpoint, qnaMakerKbId, qnaMakerSubscriptionKey));
+            return Conversation.SendAsync(activity, () => new StewardWatsonGuide());
         }
 
-        protected virtual ILifetimeScope BeginLifetimeScope(IMessageActivity messageActivity)
-        {
-            return DialogModule.BeginLifetimeScope(Conversation.Container, messageActivity);
-        }
     }
 }
