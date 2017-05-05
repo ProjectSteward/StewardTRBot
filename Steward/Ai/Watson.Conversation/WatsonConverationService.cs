@@ -4,26 +4,34 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Steward.Ai.Watson.Conversation.Model;
+using Steward.Configuration;
 using Steward.Helper;
+using Steward.Logging;
+using Steward.Service;
 
 namespace Steward.Ai.Watson.Conversation
 {
-    [Serializable]
     internal class WatsonConverationService : IWatsonConversationService
     {
-        private readonly Uri endpoint;
-        private readonly string credential;
+        private readonly ISettings settings;
+        private readonly ILog log;
 
-        internal WatsonConverationService(string endpoint, string credential)
+        private const string WatsonEndPoint = "Watson.Endpoint";
+        private const string WatsonCredential = "Watson.Credential";
+
+        internal WatsonConverationService(ISettings settings, ILog log)
         {
-            this.credential = credential;
-            this.endpoint = new UriBuilder(endpoint).Uri;
+            this.settings = settings;
+            this.log = log;
         }
 
         async Task<MessageResponse> IWatsonConversationService.SendMessage(string message, dynamic context)
         {
-            using (var client = CreateWebClient())
+            using (var client = ServiceResolver.Get<IWebClient>())
             {
+                var credential = settings[WatsonCredential];
+                var endpoint = new UriBuilder(settings[WatsonEndPoint]).Uri;
+
                 client.Headers.Add("Content-Type", "application/json");
                 client.Headers.Add("Authorization", $"Basic {credential}");
 
@@ -37,18 +45,18 @@ namespace Steward.Ai.Watson.Conversation
 
                 var data = JsonConvert.SerializeObject(messageObj);
 
+                log.Debug($"message : {message}");
+                log.Debug($"data : {data}");
+
                 var responseMessage = await client.UploadStringTaskAsync(endpoint, data);
+
+                log.Debug($"responseMessage : {responseMessage}");
 
                 return JsonConvert.DeserializeObject<MessageResponse>(responseMessage);
             }
         }
 
-        protected virtual IWebClient CreateWebClient()
-        {
-            return new WebClient();
-        }
-
-        private string CorrectInputMessage(string inputMessage)
+        private static string CorrectInputMessage(string inputMessage)
         {
             var message = new StringBuilder(inputMessage);
 

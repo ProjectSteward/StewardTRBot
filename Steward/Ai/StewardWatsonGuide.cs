@@ -5,21 +5,15 @@ using Microsoft.Bot.Connector;
 using Steward.Ai.Microsoft.QnAMaker;
 using Steward.Ai.Watson.Conversation;
 using Steward.Localization;
+using Steward.Logging;
+using Steward.Service;
 
 namespace Steward.Ai
 {
     [Serializable]
     internal class StewardWatsonGuide : IDialog<object>
     {
-        private readonly IWatsonConversationService conversationService;
-        private readonly IQnAMakerService qnAMakerService;
         private const string WatsonContextName = "WATSON.CONTEXT";
-
-        internal StewardWatsonGuide(IWatsonConversationService conversationService, IQnAMakerService qnAMakerService)
-        {
-            this.conversationService = conversationService;
-            this.qnAMakerService = qnAMakerService;
-        }
 
         public async Task StartAsync(IDialogContext context)
         {
@@ -54,8 +48,12 @@ namespace Steward.Ai
 
         protected virtual async Task<bool> IsMessageHandledByWatson(IDialogContext dialogContext, string message)
         {
+            var log = GetLog();
+
             try
             {
+                var conversationService = GetService<IWatsonConversationService>();
+                
                 dynamic watsonContext;
                 if (!dialogContext.PrivateConversationData.TryGetValue(WatsonContextName, out watsonContext))
                 {
@@ -70,6 +68,7 @@ namespace Steward.Ai
                 }
 
                 var contextObject = responseMessage.Context;
+
                 var canBeHandled = responseMessage.Context.can_not_be_handled;
 
                 var conversationIsEnded = !(responseMessage.Context.current_case != null &&
@@ -99,16 +98,23 @@ namespace Steward.Ai
 
                 return handledByWatson;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                log.Error($"exception.Message : {exception.Message}");
+                log.Error($"exception.StackTrace : {exception.StackTrace}");
+
                 return false;
             }
         }
 
         protected virtual async Task SearchInQnAMarker(IDialogContext context, string message)
         {
+            var log = GetLog();
+
             try
             {
+                var qnAMakerService = GetService <IQnAMakerService>();
+
                 // TODO keep one instance or pool, or just make static
                 var searchResult = await qnAMakerService.SearchKbAsync(message);
 
@@ -116,6 +122,11 @@ namespace Steward.Ai
                 {
                     await PostAsync(context, searchResult.Answer);
                     await PostAsync(context, "Confidence Level: " + searchResult.Score + "%");
+
+                    log.Debug($"message : {message}");
+                    log.Debug($"answer : {searchResult.Answer}");
+                    log.Debug($"Confidence Level: {searchResult.Score}%");
+
                 }
                 else
                 {
@@ -123,8 +134,11 @@ namespace Steward.Ai
                     await PostAsync(context, "Confidence Level: 0%");
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                log.Error($"exception.Message : {exception.Message}");
+                log.Error($"exception.StackTrace : {exception.StackTrace}");
+
                 // TODO: Log Error
                 await PostAsync(context, Strings_EN.NotFoundInKb);
                 await PostAsync(context, "Confidence Level: 0%");
@@ -140,6 +154,16 @@ namespace Steward.Ai
         protected virtual async Task PostAsync(IDialogContext context, string message)
         {
             await context.PostAsync(message);
+        }
+
+        protected virtual ILog GetLog()
+        {
+            return ServiceResolver.Get<ILogManager>().GetLogger(typeof(StewardWatsonGuide));
+        }
+
+        protected virtual T GetService<T>()
+        {
+            return ServiceResolver.Get<T>();
         }
     }
 }
