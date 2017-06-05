@@ -35,4 +35,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("Steward.Tests")]
 [assembly: InternalsVisibleTo("StewardBot.Explorables")]
+[assembly: InternalsVisibleTo("StewardunitTest")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 

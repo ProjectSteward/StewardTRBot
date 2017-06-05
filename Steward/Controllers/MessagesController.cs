@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
-using Steward.Ai;
+using Steward.Dialogs;
 
 namespace Steward.Controllers
 {
@@ -54,7 +54,7 @@ namespace Steward.Controllers
 
         protected virtual Task HandleMessage(IMessageActivity activity)
         {
-            return Conversation.SendAsync(activity, () => new StewardWatsonGuide());
+            return Conversation.SendAsync(activity, () => new StewardWatsonDialog());
         }
 
     }

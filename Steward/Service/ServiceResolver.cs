@@ -2,14 +2,13 @@
 
 namespace Steward.Service
 {
-    public static class ServiceResolver
+    internal static class ServiceResolver
     {
-        public static IContainer Container;
+        internal static IServiceProvider ServiceProvider;
 
-        public static T Get<T>()
+        internal static T Get<T>()
         {
-            using (var scope = Container.BeginLifetimeScope())
-                return scope.Resolve<T>();
+            return ServiceProvider.Get<T>();
         }
     }
 }

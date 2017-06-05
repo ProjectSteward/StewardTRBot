@@ -8,6 +8,10 @@ namespace Steward.Helper
     {
         WebHeaderCollection Headers { get; set; }
 
+        WebHeaderCollection ResponseHeaders { get; }
+
         Task<string> UploadStringTaskAsync(Uri address, string data);
+
+        Task<string> DownloadStringTaskAsync(Uri address);
     }
 }

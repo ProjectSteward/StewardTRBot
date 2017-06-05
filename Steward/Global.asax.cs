@@ -16,6 +16,7 @@ using Steward.Helper;
 using Steward.Service;
 using Steward.Logging;
 using log4net.Appender;
+using Steward.Manager;
 
 namespace Steward
 {
@@ -98,7 +99,9 @@ namespace Steward
                     .As<IQnAMakerService>()
                     .SingleInstance();
 
-            ServiceResolver.Container = builder.Build();
+            builder.RegisterType<StewardManager>().As<IStewardManager>().SingleInstance();
+
+            ServiceResolver.ServiceProvider = new ServiceProvider(builder.Build());
         }
 
         public static ILifetimeScope FindContainer()
